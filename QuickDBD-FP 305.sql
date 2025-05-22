@@ -4,10 +4,10 @@
 
 
 CREATE TABLE "Users" (
-    "UsersID" int   NOT NULL,
-    "firstName" String   NOT NULL,
-    "lastName" String   NOT NULL,
-    "Email" String   NOT NULL,
+    "UsersID" int   NOT NULL UNIQUE,
+    "firstName" varchar(255) NOT NULL,
+    "lastName" varchar(255)   NOT NULL,
+    "Email" varchar(400)   NOT NULL UNIQUE,
     "Password" Hash   NOT NULL,
     "RoleID" int   NOT NULL,
     CONSTRAINT "pk_Users" PRIMARY KEY (
@@ -16,31 +16,31 @@ CREATE TABLE "Users" (
 );
 
 CREATE TABLE "Role" (
-    "RoleID" int   NOT NULL,
+    "RoleID" int   NOT NULL UNIQUE,
     "Clerance" String   NOT NULL
 );
 
 CREATE TABLE "Location" (
-    "LocationID" int   NOT NULL,
-    "houseNumber" string   NOT NULL,
-    "Street" string   NOT NULL,
-    "Zipcode" string   NOT NULL,
-    "City" String   NOT NULL,
-    "SecondaryAddress" String   NOT NULL
+    "LocationID" int   NOT NULL UNIQUE,
+    "houseNumber" varchar(400)   NOT NULL,
+    "Street" varchar(400)   NOT NULL,
+    "Zipcode" varchar(400)   NOT NULL,
+    "City" varchar(400)   NOT NULL,
+    "SecondaryAddress" varchar(400)   NOT NULL
 );
 
 CREATE TABLE "Events" (
-    "EventID" int   NOT NULL,
-    "Name" String   NOT NULL,
-    "Location" string   NOT NULL,
-    "Host" int   NOT NULL,
-    "Date" String   NOT NULL,
-    "Time" String   NOT NULL,
+    "EventID" int   NOT NULL UNIQUE,
+    "Name" varchar(400)   NOT NULL,
+    "Location" varchar(400)   NOT NULL,
+    "Host" varchar(400)   NOT NULL,
+    "Date" varchar(400)   NOT NULL,
+    "Time" varchar(400)   NOT NULL,
     "FiltersID" int   NOT NULL
 );
 
 CREATE TABLE "Filter" (
-    "FilterID" int   NOT NULL,
+    "FilterID" int   NOT NULL UNIQUE,
     "Description" string   NOT NULL,
     "Food" boolean   NOT NULL,
     "Free" boolean   NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE "Filter" (
 );
 
 CREATE TABLE "Host" (
-    "HostID" int   NOT NULL,
+    "HostID" int   NOT NULL UNIQUE,
     "User(s)" int   NOT NULL
 );
 
