@@ -1,44 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MyProfile extends JFrame {
+public class MyProfile extends JPanel {
     private JTextField nameField;
     private JTextArea aboutText;
     private JButton editButton;
     private JLabel profileImage;
-    private java.util.List<String> selectedInterests = new java.util.ArrayList<>();
-    private JPanel tagsPanel; // make it accessible so we can update it
-
-    public void updateTagsPanel() {
-        tagsPanel.removeAll();
-        Color[] colors = {
-            new Color(107, 122, 237), new Color(238, 84, 74), new Color(255, 141, 93),
-            new Color(125, 103, 238), new Color(41, 214, 151), new Color(57, 209, 242),
-            new Color(255, 182, 193)
-        };
-        String[] allTags = {"Academic", "Culture", "Creative", "Career", "Physcial Activity", "Social", "Other"};
-        for (int i = 0; i < allTags.length; i++) {
-            if (selectedInterests.contains(allTags[i])) {
-                JLabel tag = new JLabel(allTags[i]);
-                tag.setOpaque(true);
-                tag.setBackground(colors[i % colors.length]);
-                tag.setForeground(Color.WHITE);
-                tag.setFont(new Font("Arial", Font.PLAIN, 13));
-                tag.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                tagsPanel.add(tag);
-            }
-        }
-        tagsPanel.revalidate();
-        tagsPanel.repaint();
-    }
+    private List<String> selectedInterests = new ArrayList<>();
+    private JPanel tagsPanel;
 
     public MyProfile() {
-        setTitle("My Profile");
-        setSize(375, 812);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
+        setPreferredSize(new Dimension(375, 812));
+        setBackground(Color.WHITE);
 
         // Header
         JLabel title = new JLabel("Profile");
@@ -55,16 +31,15 @@ public class MyProfile extends JFrame {
         time.setBounds(21, 7, 50, 20);
         add(time);
 
-
         // Profile Section
-        profileImage = new JLabel(new ImageIcon("profile.png"));
+        profileImage = new JLabel(new ImageIcon("profile.png")); // You may want to handle missing image case
         profileImage.setBounds(140, 115, 96, 90);
         add(profileImage);
 
         nameField = new JTextField("PASA @ K College");
         nameField.setFont(new Font("Arial", Font.BOLD, 24));
         nameField.setHorizontalAlignment(JTextField.CENTER);
-        nameField.setBounds(50, 220, 275, 30); // narrower, centered
+        nameField.setBounds(50, 220, 275, 30);
         nameField.setBorder(null);
         nameField.setEditable(false);
         add(nameField);
@@ -99,13 +74,8 @@ public class MyProfile extends JFrame {
         editButton.setOpaque(true);
         add(editButton);
 
-        // Button Listeners
-        editButton.addActionListener(_ -> {
-            new EditMyProfile(this, nameField.getText(), aboutText.getText(), profileImage.getIcon(), selectedInterests);
-            setEnabled(true);
-            setVisible(true);
-
-        });
+        // Add action listener to edit button
+        editButton.addActionListener(_ -> openEditDialog());
 
         // About Me
         JLabel aboutTitle = new JLabel("About Me");
@@ -121,43 +91,94 @@ public class MyProfile extends JFrame {
         aboutText.setBounds(20, 440, 323, 60);
         add(aboutText);
 
-       // Interests
-       JLabel interestsTitle = new JLabel("Category");
-       interestsTitle.setFont(new Font("Arial", Font.BOLD, 18));
-       interestsTitle.setBounds(20, 520, 200, 30);
-       add(interestsTitle);
+        // Interests
+        JLabel interestsTitle = new JLabel("Category");
+        interestsTitle.setFont(new Font("Arial", Font.BOLD, 18));
+        interestsTitle.setBounds(20, 520, 200, 30);
+        add(interestsTitle);
 
-       tagsPanel = new JPanel();
-       tagsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
-       tagsPanel.setBounds(20, 550, 330, 80);
-       add(tagsPanel);
-       
-       // Initially selected interests
-       String[] initialTags = {"Culture", "Creative", "Social"};
-       java.util.Collections.addAll(selectedInterests, initialTags);
-       updateTagsPanel();
-
+        tagsPanel = new JPanel();
+        tagsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        tagsPanel.setBounds(20, 550, 330, 80);
+        tagsPanel.setBackground(Color.WHITE);
+        tagsPanel.setOpaque(true); 
+        add(tagsPanel);
+        
+        // Initially selected interests
+        String[] initialTags = {"Culture", "Creative", "Social"};
+        selectedInterests.addAll(List.of(initialTags));
+        updateTagsPanel();
     }
-    // Called from EditMyProfile to update name, about, and image
-    public void updateProfile(String newName, String newAbout, ImageIcon newImage, java.util.List<String> newInterests) {
+
+    private void openEditDialog() {
+        // Create a dialog window
+        JDialog editDialog = new JDialog();
+        editDialog.setTitle("Edit Profile");
+        editDialog.setModal(true);
+        
+        // Create the edit panel with current values
+        EditMyProfile editPanel = new EditMyProfile(
+            this,
+            nameField.getText(),
+            aboutText.getText(),
+            profileImage.getIcon(),
+            selectedInterests
+        );
+        
+        // Add to dialog and display
+        editDialog.add(editPanel);
+        editDialog.pack();
+        editDialog.setLocationRelativeTo(this);
+        editDialog.setVisible(true);
+    }
+
+    public void updateTagsPanel() {
+        tagsPanel.removeAll();
+        Color[] colors = {
+            new Color(107, 122, 237), new Color(238, 84, 74), new Color(255, 141, 93),
+            new Color(125, 103, 238), new Color(41, 214, 151), new Color(57, 209, 242),
+            new Color(255, 182, 193)
+        };
+        String[] allTags = {"Academic", "Culture", "Creative", "Career", "Physcial Activity", "Social", "Other"};
+        
+        for (int i = 0; i < allTags.length; i++) {
+            if (selectedInterests.contains(allTags[i])) {
+                JLabel tag = new JLabel(allTags[i]);
+                tag.setOpaque(true);
+                tag.setBackground(colors[i % colors.length]);
+                tag.setForeground(Color.WHITE);
+                tag.setFont(new Font("Arial", Font.PLAIN, 13));
+                tag.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                tagsPanel.add(tag);
+            }
+        }
+        tagsPanel.revalidate();
+        tagsPanel.repaint();
+    }
+
+    public void updateProfile(String newName, String newAbout, ImageIcon newImage, List<String> newInterests) {
         nameField.setText(newName);
         aboutText.setText(newAbout);
         if (newImage != null) {
             profileImage.setIcon(newImage);
         }
-
-         // Update selected interests
-        selectedInterests = new java.util.ArrayList<>(newInterests);
+        selectedInterests = new ArrayList<>(newInterests);
         updateTagsPanel();
-        setVisible(true);
     }
-    
+
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    // Main method for testing
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MyProfile profile = new MyProfile();
-            profile.setVisible(true);  // This line was missing
+            JFrame frame = new JFrame("My Profile");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new MyProfile());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 }
-
-

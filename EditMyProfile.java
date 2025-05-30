@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditMyProfile extends JFrame {
+public class EditMyProfile extends JPanel {
     private JTextField nameInput;
     private JTextArea aboutInput;
     private JLabel previewImage;
@@ -12,17 +12,17 @@ public class EditMyProfile extends JFrame {
     private MyProfile mainProfile;
     private List<JCheckBox> interestCheckboxes = new ArrayList<>();
 
-    
-
-    public EditMyProfile(MyProfile profileRef, String currentName, String currentAbout, Icon currentIcon, java.util.List<String> interests) {
+    public EditMyProfile(MyProfile profileRef, String currentName, String currentAbout, Icon currentIcon, List<String> interests) {
         this.mainProfile = profileRef;
-
-        setTitle("Edit Profile");
-        setSize(375, 620);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
         setLayout(null);
-        setLocationRelativeTo(null); // Center the window on screen
+        setPreferredSize(new Dimension(375, 620));
+        setBackground(Color.WHITE);
 
+        initComponents(currentName, currentAbout, currentIcon, interests);
+    }
+
+    private void initComponents(String currentName, String currentAbout, Icon currentIcon, List<String> interests){
         previewImage = new JLabel(currentIcon);
         previewImage.setBounds(140, 10, 96, 90);
         add(previewImage);
@@ -37,7 +37,8 @@ public class EditMyProfile extends JFrame {
             int option = chooser.showOpenDialog(this);
             if (option == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
-                selectedImage = new ImageIcon(new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(96, 90, Image.SCALE_SMOOTH));
+                selectedImage = new ImageIcon(new ImageIcon(file.getAbsolutePath()).getImage()
+                    .getScaledInstance(96, 90, Image.SCALE_SMOOTH));
                 previewImage.setIcon(selectedImage);
             }
         });
@@ -82,32 +83,78 @@ public class EditMyProfile extends JFrame {
         }
 
         // Save Button
-    JButton saveButton = new JButton("Save");
-    saveButton.setBounds(250, 540, 90, 30);
-    saveButton.setBackground(new Color(0, 123, 255));
-    saveButton.setForeground(Color.BLACK);
-    add(saveButton);
+        JButton saveButton = new JButton("Save");
+        saveButton.setBounds(250, 540, 90, 30);
+        saveButton.setBackground(new Color(0, 123, 255));
+        saveButton.setForeground(Color.BLACK); // Changed to white for better visibility
+        saveButton.setFocusPainted(false);
+        add(saveButton);
 
-    saveButton.addActionListener(_ -> {
+        saveButton.addActionListener(_ -> saveProfile());
+        
+        // Cancel Button
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(150, 540, 90, 30);
+        cancelButton.setBackground(new Color(200, 200, 200));
+        cancelButton.setForeground(Color.BLACK);
+        cancelButton.setFocusPainted(false);
+        add(cancelButton);
+
+        cancelButton.addActionListener(_ -> {
+            Window window = SwingUtilities.getWindowAncestor(this);
+            if (window != null) {
+                window.dispose();
+            }
+        });
+    }
+
+    private void saveProfile() {
         String newName = nameInput.getText();
         String newAbout = aboutInput.getText();
         List<String> newInterests = new ArrayList<>();
+        
         for (JCheckBox cb : interestCheckboxes) {
             if (cb.isSelected()) {
                 newInterests.add(cb.getText());
             }
         }
+        
         if (selectedImage == null) {
             Icon icon = previewImage.getIcon();
             if (icon instanceof ImageIcon) {
                 selectedImage = (ImageIcon) icon;
             }
         }
+        
         mainProfile.updateProfile(newName, newAbout, selectedImage, newInterests);
+        
+        // Get the top-level window and dispose it
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }
+        
         JOptionPane.showMessageDialog(this, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        dispose(); // Close this window
-    });
+    }
 
-    setVisible(true); // Make sure this is called!
+    // Main method for testing
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            // Create a dummy profile for testing
+            MyProfile dummyProfile = new MyProfile();
+            
+            JFrame frame = new JFrame("Edit Profile");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new EditMyProfile(
+                dummyProfile,
+                "Test Name",
+                "Test About",
+                new ImageIcon(),
+                List.of("Culture", "Social")
+            ));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }

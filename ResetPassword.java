@@ -3,19 +3,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class ResetPassword extends JFrame {
+public class ResetPassword extends JPanel {
     private JTextField emailField;
     private boolean isUpperCase = false; // Track uppercase/lowercase state
     private ArrayList<JButton> letterButtons = new ArrayList<>(); // Keep track of letter buttons to update text
     private JButton shiftButton;
 
     public ResetPassword() {
-        setTitle("Reset Password");
-        setSize(375, 780);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
-        getContentPane().setBackground(Color.WHITE);
+        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(375, 780));
 
         // Status bar time
         JLabel timeLabel = new JLabel("9:41");
@@ -30,10 +27,10 @@ public class ResetPassword extends JFrame {
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
-        backButton.setFont(new Font("SansSerif", Font.BOLD, 25));
+        backButton.setFont(new Font("sansSerif", Font.BOLD, 25));
         backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     
-        // Placeholder action – replace with actual navigation
+        // Placeholder action - replace with actual navigation
         backButton.addActionListener(_ -> {
             JOptionPane.showMessageDialog(this, "Back button clicked!");
         });
@@ -42,14 +39,14 @@ public class ResetPassword extends JFrame {
 
         // Title
         JLabel titleLabel = new JLabel("Reset Password");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        titleLabel.setFont(new Font("sansSerif", Font.BOLD, 24));
         titleLabel.setForeground(new Color(0x120D26));
         titleLabel.setBounds(28, 94, 300, 30);
         add(titleLabel);
 
         // Subtitle
         JLabel subtitleLabel = new JLabel("<html>Please enter your email address<br>to request a password reset.</html>");
-        subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        subtitleLabel.setFont(new Font("sansSerif", Font.PLAIN, 15));
         subtitleLabel.setForeground(new Color(0x120D26));
         subtitleLabel.setBounds(28, 130, 300, 50);
         add(subtitleLabel);
@@ -57,7 +54,7 @@ public class ResetPassword extends JFrame {
         // Email field
         emailField = new JTextField();
         emailField.setBounds(28, 190, 317, 56);
-        emailField.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        emailField.setFont(new Font("sansSerif", Font.PLAIN, 16));
         emailField.setBorder(BorderFactory.createLineBorder(new Color(0xE4DFDF), 1));
         emailField.setBackground(Color.WHITE);
         emailField.setMargin(new Insets(10, 15, 10, 15));
@@ -66,7 +63,7 @@ public class ResetPassword extends JFrame {
         // SEND button
         JButton sendButton = new JButton("SEND");
         sendButton.setBounds(52, 260, 271, 58);
-        sendButton.setFont(new Font("SansSerif", Font.BOLD, 16));
+        sendButton.setFont(new Font("sansSerif", Font.BOLD, 16));
         sendButton.setForeground(Color.WHITE);
         sendButton.setBackground(new Color(0xFF9500)); // Orange
         sendButton.setFocusPainted(false);
@@ -104,8 +101,8 @@ public class ResetPassword extends JFrame {
             "1 2 3 4 5 6 7 8 9 0",
             "Q W E R T Y U I O P",
             "A S D F G H J K L",
-            "SHIFT Z X C V B N M _ - @ .",
-            "SPACE DEL ENTER"
+            "Z X C V B N M _ - @ .",
+            "SHIFT SPACE DEL ENTER"
         };
 
         for (String row : rows) {
@@ -174,7 +171,7 @@ public class ResetPassword extends JFrame {
     private JButton createKeyButton(String key) {
         JButton button = new JButton(key);
         button.setPreferredSize(new Dimension(32, 40));
-        button.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        button.setFont(new Font("sansSerif", Font.PLAIN, 14));
         button.addActionListener((ActionEvent _) -> {
             emailField.setText(emailField.getText() + button.getText());
         });
@@ -211,10 +208,15 @@ public class ResetPassword extends JFrame {
         }
     }
 
+    // Main method to test the panel
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ResetPassword ui = new ResetPassword();
-            ui.setVisible(true);
+            JFrame frame = new JFrame("Reset Password");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new ResetPassword());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 }
