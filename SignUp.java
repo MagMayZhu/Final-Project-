@@ -6,11 +6,15 @@ import java.awt.event.FocusEvent;
 public class SignUp extends JPanel {
 
     private static final Color ORANGE = new Color(0xFF9500);
+    private final AppController controller;
 
-    public SignUp() {
-        setPreferredSize(new Dimension(375, 812));
-        setBackground(Color.WHITE);
+    public SignUp(AppController controller) {
+        this.controller = controller;
+
         setLayout(null);
+        setPreferredSize(new Dimension(375, 812));
+        setBackground(Color.WHITE); // optional
+
         addBackButton();
         addTitleLabel();
         addInputFields();
@@ -24,11 +28,15 @@ public class SignUp extends JPanel {
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
-        backButton.setFont(new Font("SansSerif", Font.BOLD, 25));
+        backButton.setFont(new Font("Alata", Font.BOLD, 25));
         backButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Back button clicked!");
         });
-        add(backButton);
+
+        backButton.addActionListener(e -> {
+            if (controller != null) controller.showSignIn();
+        });
+        this.add(backButton);
     }
 
     private void addTitleLabel() {
@@ -117,7 +125,12 @@ public class SignUp extends JPanel {
         signInButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Redirecting to Sign In page...");
         });
-        add(signInButton);
+
+        signInButton.addActionListener(e -> {
+        if (controller != null) controller.showSignIn();
+        });
+
+        this.add(signInButton);
     }
 
     private void createPlaceholderField(String placeholder, int x, int y, int width, int height) {
@@ -194,13 +207,16 @@ public class SignUp extends JPanel {
 
     // Main method for standalone testing
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Find the FunKtion - Sign Up");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(375, 812);
-            frame.setLocationRelativeTo(null);
-            frame.setContentPane(new SignUp());
-            frame.setVisible(true);
-        });
-    }
+    SwingUtilities.invokeLater(() -> {
+        JFrame frame = new JFrame("Find the FunKtion - Sign Up");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(375, 812);
+        frame.setLocationRelativeTo(null);
+
+        // Pass null since we're just testing the SignUp UI
+        frame.setContentPane(new SignUp(null));
+        frame.setVisible(true);
+    });
+}
+
 }
