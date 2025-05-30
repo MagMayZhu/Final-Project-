@@ -5,16 +5,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class CreateEvent extends JFrame {
+public class CreateEvent extends JPanel {
     private static final Color ORANGE = new Color(0xFF9500);
     private static final Color GRAY = new Color(0xCCCCCC);
-    
+
     private JTextField nameField, dateField, timeField, locationField, hostField;
     private JTextArea descriptionArea;
     private JLabel imageLabel;
 
     public CreateEvent() {
-        setupFrame();
+        setLayout(null);
+        setBackground(Color.WHITE);
+
         addBackButton();
         addTitle();
         addImage();
@@ -22,15 +24,6 @@ public class CreateEvent extends JFrame {
         addEventDescription();
         addFilterButtons();
         addPublishButton();
-    }
-
-    private void setupFrame() {
-        setTitle("Find the FunKtion - Create Event");
-        setSize(375, 812);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
-        setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.WHITE);
     }
 
     private void addBackButton() {
@@ -144,18 +137,13 @@ public class CreateEvent extends JFrame {
         add(scrollPane);
     }
 
-
     private void addFilterButtons() {
         JLabel label = new JLabel("Filters:");
         label.setFont(new Font("Alata", Font.BOLD, 16));
         label.setBounds(50, 560, 100, 20);
         add(label);
 
-        String[] filters = {
-            "Party", "Club",
-            "Sport", "Event",
-            "Art", "Food"
-        };
+        String[] filters = { "Party", "Club", "Sport", "Event", "Art", "Food" };
 
         int xStart = 50;
         int y = 590;
@@ -196,6 +184,9 @@ public class CreateEvent extends JFrame {
 
         publish.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Event published!");
+
+            // For now, just print; later you can call controller.switchTo("EventDetail");
+            System.out.println("Go to EventDetail screen...");
         });
 
         add(publish);
@@ -216,10 +207,15 @@ public class CreateEvent extends JFrame {
         }
     }
 
+    // Main method for standalone testing
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            CreateEvent screen = new CreateEvent();
-            screen.setVisible(true);
+            JFrame frame = new JFrame("Create Event");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(375, 812);
+            frame.setLocationRelativeTo(null);
+            frame.setContentPane(new CreateEvent());
+            frame.setVisible(true);
         });
     }
 }

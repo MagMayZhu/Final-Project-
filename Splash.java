@@ -1,20 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Splash extends JFrame {
+public class Splash extends JPanel {
 
     public Splash() {
-        setupFrame();
-        addSplashText();
-    }
-
-    private void setupFrame() {
-        setTitle("Find the FunKtion - Splash");
-        setSize(375, 812);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(375, 812));
+        setBackground(Color.WHITE);
         setLayout(null);
+        addSplashText();
     }
 
     private void addSplashText() {
@@ -33,10 +26,15 @@ public class Splash extends JFrame {
         add(bottomText);
     }
 
+    // Main method for standalone testing
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Splash splash = new Splash();
-            splash.setVisible(true);
+            JFrame frame = new JFrame("Find the FunKtion - Splash");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(375, 812);
+            frame.setLocationRelativeTo(null);
+            frame.setContentPane(new Splash());
+            frame.setVisible(true);
         });
     }
 }
