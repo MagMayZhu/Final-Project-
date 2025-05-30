@@ -1,13 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class EventDetail extends JFrame {
+public class EventDetail extends JPanel {
     public EventDetail() {
-        setTitle("Event Details");
-        setSize(375, 812);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setLayout(null);
+        setPreferredSize(new Dimension(375, 812));
 
         // Background image
         JLabel backgroundImage = new JLabel(new ImageIcon("https://placehold.co/375x244"));
@@ -91,8 +88,12 @@ public class EventDetail extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            EventDetail ed = new EventDetail();
-            ed.setVisible(true);
+            JFrame frame = new JFrame("Event Details");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new EventDetail());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 }

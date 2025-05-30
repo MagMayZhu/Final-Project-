@@ -4,14 +4,12 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class SignIn extends JFrame {
+public class SignIn extends JPanel {
 
     public SignIn() {
         // Frame setup
-        setTitle("Find the FunKtion - Sign In");
-        setSize(375, 812);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);  // Using absolute layout for pixel-accurate placement
+        setPreferredSize(new Dimension(375, 812));  // Panel size
 
         // Title
         JLabel title = new JLabel("Find the FunKtion");
@@ -108,35 +106,60 @@ showPassword.addActionListener(e -> {
         add(rememberMe);
 
         // Forgot password
-        JLabel forgotPassword = new JLabel("Forgot Password?");
+        JButton forgotPassword = new JButton("Forgot Password");
         forgotPassword.setFont(new Font("Alata", Font.PLAIN, 14));
-        forgotPassword.setBounds(237, 420, 150, 25);
-        add(forgotPassword);
+        forgotPassword.setBounds(205, 420, 200, 25);
+        
+        //forgotPassword.setFont(new Font("Alata", Font.PLAIN, 15));
+        forgotPassword.setForeground(Color.ORANGE);
+        //forgotPassword.setBounds(240, 585, 100, 25);
+        forgotPassword.setBorderPainted(false);
+        forgotPassword.setContentAreaFilled(false);
+        forgotPassword.setFocusPainted(false);
+        forgotPassword.setOpaque(false);
+        forgotPassword.addActionListener(e -> {
+                JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...");
+            });
+            add(forgotPassword);
+        
 
         // Sign In Button
-        JButton signInButton = new JButton("SIGN IN");
-        signInButton.setFont(new Font("Alata", Font.BOLD, 16));
-        signInButton.setBackground(new Color(255, 149, 0));
-        signInButton.setForeground(Color.WHITE);
-        signInButton.setOpaque(true);                       // Allow background to show
-        signInButton.setBorderPainted(false);               // Optional: cleaner look
-        signInButton.setBounds(52, 479, 271, 58);
-        add(signInButton);
+        JButton signInButtons = new JButton("SIGN IN");
+        signInButtons.setFont(new Font("Alata", Font.BOLD, 16));
+        signInButtons.setBackground(new Color(255, 149, 0));
+        signInButtons.setForeground(Color.WHITE);
+        signInButtons.setOpaque(true);                       // Allow background to show
+        signInButtons.setBorderPainted(false);               // Optional: cleaner look
+        signInButtons.setBounds(52, 479, 271, 58);
+        add(signInButtons);
 
-        // OR separator
+       
+
+        // Sign up prompt
+        
         JLabel orLabel = new JLabel("OR");
         orLabel.setFont(new Font("Alata", Font.PLAIN, 16));
         orLabel.setForeground(new Color(157, 152, 152));
-        orLabel.setBounds(175, 561, 50, 25);
+        orLabel.setBounds(175, 551, 50, 25);
         add(orLabel);
-
-        // Sign up prompt
-        JLabel signUpPrompt = new JLabel("<html>Don’t have an account? <font color='#FF9500'>Sign up</font></html>");
-        signUpPrompt.setFont(new Font("Alata", Font.PLAIN, 15));
-        signUpPrompt.setBounds(79, 595, 250, 25);
-        add(signUpPrompt);
-
-        setVisible(true);
+    
+        JLabel promptLabel = new JLabel("Don't have an account? ");
+        promptLabel.setFont(new Font("Alata", Font.PLAIN, 15));
+        promptLabel.setBounds(79, 585, 200, 25);
+        add(promptLabel);
+    
+        JButton signInButton = new JButton("Sign in");
+        signInButton.setFont(new Font("Alata", Font.PLAIN, 15));
+        signInButton.setForeground(Color.ORANGE);
+        signInButton.setBounds(240, 585, 100, 25);
+        signInButton.setBorderPainted(false);
+        signInButton.setContentAreaFilled(false);
+        signInButton.setFocusPainted(false);
+        signInButton.setOpaque(false);
+        signInButton.addActionListener(e -> {
+                JOptionPane.showMessageDialog(this, "Redirecting to Sign Up page...");
+            });
+        add(signInButton);
 
         
     }
@@ -170,7 +193,14 @@ showPassword.addActionListener(e -> {
     
 
     public static void main(String[] args) {
-        new SignIn();
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Find the FunKtion - Sign In");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new SignIn());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }
 

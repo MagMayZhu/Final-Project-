@@ -3,16 +3,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Verification extends JFrame {
+public class Verification extends JPanel {
     private int currentDigitIndex = 0;
     private JLabel[] digitLabels = new JLabel[4];
 
     public Verification() {
-        setTitle("Verification");
-        setSize(375, 812);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setLayout(null);
+        setPreferredSize(new Dimension(375, 812));
 
         // Title
         JLabel title = new JLabel("Verification");
@@ -108,8 +105,12 @@ public class Verification extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Verification vs = new Verification();
-            vs.setVisible(true);
+            JFrame frame = new JFrame("Verification");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new Verification());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 }
