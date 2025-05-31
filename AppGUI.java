@@ -16,7 +16,7 @@ public class AppGUI {
         mainPanel = new JPanel(layout);
 
         // Screens
-        Splash splash = new Splash();
+        Splash splash = new Splash(controller);
         SignIn signIn = new SignIn(controller);
         SignUp signUp = new SignUp(controller);
 
