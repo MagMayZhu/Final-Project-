@@ -2,12 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Splash extends JPanel {
+    private AppController controller;
 
-    public Splash() {
+    public Splash(AppController controller) {
+        this.controller = controller;
+
         setPreferredSize(new Dimension(375, 812));
         setBackground(Color.WHITE);
         setLayout(null);
         addSplashText();
+
+        // Auto transition to SignIn after 2.5 seconds
+        Timer timer = new Timer(2500, e -> controller.showSignIn());
+        timer.setRepeats(false);
+        timer.start();
     }
 
     private void addSplashText() {
@@ -24,17 +32,5 @@ public class Splash extends JPanel {
         bottomText.setForeground(Color.BLACK);
         bottomText.setBounds(marginLeft, 370, 300, 50);
         add(bottomText);
-    }
-
-    // Main method for standalone testing
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Find the FunKtion - Splash");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(375, 812);
-            frame.setLocationRelativeTo(null);
-            frame.setContentPane(new Splash());
-            frame.setVisible(true);
-        });
     }
 }
