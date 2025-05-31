@@ -1,46 +1,38 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class AppGUI {
-    private AppController controller;
-    private JFrame frame;
-    private JTextField inputField;
-    private JTextArea outputArea;
+    private final JFrame frame;
+    private final CardLayout layout;
+    private final JPanel mainPanel;
 
     public AppGUI(AppController controller) {
-        this.controller = controller;
-        createUI();
-    }
-
-    private void createUI() {
-        frame = new JFrame("My Java App");
+        frame = new JFrame("Find the FunKtion");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(375, 812);
+        frame.setLocationRelativeTo(null);
 
-        inputField = new JTextField(20);
-        JButton submitButton = new JButton("Submit");
-        outputArea = new JTextArea(10, 30);
-        outputArea.setEditable(false);
+        layout = new CardLayout();
+        mainPanel = new JPanel(layout);
 
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String input = inputField.getText();
-                String result = controller.processInput(input);
-                outputArea.setText(result);
-            }
-        });
+        // Screens
+        Splash splash = new Splash(controller);
+        SignIn signIn = new SignIn(controller);
+        SignUp signUp = new SignUp(controller);
 
-        JPanel panel = new JPanel();
-        panel.add(new JLabel(controller.getWelcomeMessage()));
-        panel.add(inputField);
-        panel.add(submitButton);
-        panel.add(new JScrollPane(outputArea));
+        mainPanel.add(splash, "splash");
+        mainPanel.add(signIn, "signin");
+        mainPanel.add(signUp, "signup");
 
-        frame.getContentPane().add(panel);
+        frame.setContentPane(mainPanel);
+        frame.setVisible(true);
     }
 
-    public void show() {
-        frame.setVisible(true);
+    public void showPanel(String name) {
+        layout.show(mainPanel, name);
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }
