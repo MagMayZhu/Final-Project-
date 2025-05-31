@@ -6,165 +6,173 @@ import java.awt.event.FocusEvent;
 
 public class SignIn extends JPanel {
 
-    public SignIn() {
-        // Frame setup
-        setLayout(null);  // Using absolute layout for pixel-accurate placement
-        setPreferredSize(new Dimension(375, 812));  // Panel size
+    private static final Color ORANGE = new Color(0xFF9500);
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JCheckBox showPassword;
+    private JCheckBox rememberMe;
+    private JButton forgotPassword;
+    private JButton signInButton;
+    private JButton goToSignUpButton;
+    private final String passwordPlaceholder = "Your password";
+    private final boolean[] isPasswordPlaceholder = {true};
 
-        // Title
+    private AppController controller;
+
+    public SignIn(AppController controller) 
+    {
+        this.controller = controller;
+
+        setLayout(null);
+        setPreferredSize(new Dimension(375, 812));
+        setBackground(Color.WHITE);
+
+        addTitle();
+        addSignInLabel();
+        addEmailField();
+        addPasswordField();
+        addShowPasswordCheckbox();
+        addRememberMeCheckbox();
+        addForgotPasswordButton();
+        addSignInButton();
+        addSignUpPrompt();
+    }
+
+    private void addTitle() {
         JLabel title = new JLabel("Find the FunKtion");
-        title.setFont(new Font("Alata", Font.PLAIN, 28));
-        title.setBounds(54, 148, 300, 40);
+        title.setFont(new Font("Alata", Font.BOLD, 28));
+        title.setBounds((375 - 300) / 2, 155, 300, 40);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         add(title);
+    }
 
-        // Sign In Label
+    private void addSignInLabel() {
         JLabel signInLabel = new JLabel("Sign in");
         signInLabel.setFont(new Font("Alata", Font.PLAIN, 24));
-        signInLabel.setBounds(29, 216, 200, 30);
+        signInLabel.setBounds(29, 215, 200, 30);
         add(signInLabel);
+    }
 
-        // Email field with placeholder
-        JTextField emailField = new JTextField("abc@email.com");
+    private void addEmailField() {
+        emailField = new JTextField("Email");
         emailField.setFont(new Font("Alata", Font.PLAIN, 14));
         emailField.setForeground(Color.GRAY);
-        emailField.setBounds(28, 269, 317, 56);
-        addPlaceholderBehavior(emailField, "abc@email.com");
+        emailField.setBounds((375 - 317) / 2, 275, 317, 40);
+        addPlaceholderBehavior(emailField, "Email");
         add(emailField);
-
-        // Placeholder tracker
-final String passwordPlaceholder = "Your password";
-final boolean[] isPasswordPlaceholder = {true};  // use array to modify in lambdas
-
-// Password field
-JPasswordField passwordField = new JPasswordField(passwordPlaceholder);
-passwordField.setFont(new Font("Alata", Font.PLAIN, 14));
-passwordField.setForeground(Color.GRAY);
-passwordField.setEchoChar((char) 0); // Show text as-is
-passwordField.setBounds(28, 345, 317, 56);
-add(passwordField);
-
-// Show Password Checkbox
-JCheckBox showPassword = new JCheckBox("Show Password");
-showPassword.setFont(new Font("Alata", Font.PLAIN, 14));
-showPassword.setBounds(230, 400, 150, 25);
-showPassword.setOpaque(false);
-add(showPassword);
-
-// Focus behavior for placeholder
-passwordField.addFocusListener(new FocusAdapter() {
-    @Override
-    public void focusGained(FocusEvent e) {
-        if (isPasswordPlaceholder[0]) {
-            passwordField.setText("");
-            passwordField.setForeground(Color.BLACK);
-            passwordField.setEchoChar(showPassword.isSelected() ? (char) 0 : '•');
-            isPasswordPlaceholder[0] = false;
-        }
     }
 
-    @Override
-    public void focusLost(FocusEvent e) {
-        if (passwordField.getPassword().length == 0) {
-            passwordField.setText(passwordPlaceholder);
-            passwordField.setForeground(Color.GRAY);
-            passwordField.setEchoChar((char) 0);
-            isPasswordPlaceholder[0] = true;
-        }
+    private void addPasswordField() {
+        passwordField = new JPasswordField(passwordPlaceholder);
+        passwordField.setFont(new Font("Alata", Font.PLAIN, 14));
+        passwordField.setForeground(Color.GRAY);
+        passwordField.setEchoChar((char) 0);
+        passwordField.setBounds((375 - 317) / 2, 345, 317, 40);
+        add(passwordField);
+
+        passwordField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (isPasswordPlaceholder[0]) {
+                    passwordField.setText("");
+                    passwordField.setForeground(Color.BLACK);
+                    passwordField.setEchoChar(showPassword.isSelected() ? (char) 0 : '•');
+                    isPasswordPlaceholder[0] = false;
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (passwordField.getPassword().length == 0) {
+                    passwordField.setText(passwordPlaceholder);
+                    passwordField.setForeground(Color.GRAY);
+                    passwordField.setEchoChar((char) 0);
+                    isPasswordPlaceholder[0] = true;
+                }
+            }
+        });
+
+        add(passwordField);
     }
-});
 
-// Checkbox logic
-showPassword.addActionListener(e -> {
-    if (!isPasswordPlaceholder[0]) {
-        passwordField.setEchoChar(showPassword.isSelected() ? (char) 0 : '•');
+    private void addShowPasswordCheckbox() {
+        showPassword = new JCheckBox("Show Password");
+        showPassword.setFont(new Font("Alata", Font.PLAIN, 12));
+        showPassword.setBounds(226, 390, 120, 20);
+        showPassword.setOpaque(false);
+        showPassword.addActionListener(e -> {
+            if (!isPasswordPlaceholder[0]) {
+                passwordField.setEchoChar(showPassword.isSelected() ? (char) 0 : '•');
+            }
+        });
+        add(showPassword);
     }
-});
 
-
-// Toggle password visibility
-showPassword.addActionListener(e -> {
-    String placeholder = "Your password";
-    if (showPassword.isSelected()) {
-        // Only show actual password if not showing placeholder
-        if (!String.valueOf(passwordField.getPassword()).equals(placeholder)) {
-            passwordField.setEchoChar((char) 0);
-        }
-    } else {
-        if (!String.valueOf(passwordField.getPassword()).equals(placeholder)) {
-            passwordField.setEchoChar('•');
-        }
-    }
-});
-
-
-
-        // Remember me switch (simulated with checkbox)
-        JCheckBox rememberMe = new JCheckBox("Remember Me");
-        rememberMe.setFont(new Font("Alata", Font.PLAIN, 14));
-        rememberMe.setBounds(72, 420, 150, 25);
+    private void addRememberMeCheckbox() {
+        rememberMe = new JCheckBox("Remember Me");
+        rememberMe.setFont(new Font("Alata", Font.PLAIN, 12));
+        rememberMe.setBounds(34, 390, 120, 20);
         rememberMe.setOpaque(false);
         add(rememberMe);
+    }
 
-        // Forgot password
-        JButton forgotPassword = new JButton("Forgot Password");
+    private void addForgotPasswordButton() {
+        forgotPassword = new JButton("Forgot Password");
         forgotPassword.setFont(new Font("Alata", Font.PLAIN, 14));
-        forgotPassword.setBounds(205, 420, 200, 25);
-        
-        //forgotPassword.setFont(new Font("Alata", Font.PLAIN, 15));
-        forgotPassword.setForeground(Color.ORANGE);
-        //forgotPassword.setBounds(240, 585, 100, 25);
+        forgotPassword.setBounds((375-200)/2, 415, 200, 25);
+        forgotPassword.setForeground(ORANGE);
         forgotPassword.setBorderPainted(false);
         forgotPassword.setContentAreaFilled(false);
         forgotPassword.setFocusPainted(false);
         forgotPassword.setOpaque(false);
-        forgotPassword.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...");
-            });
-            add(forgotPassword);
-        
+        forgotPassword.addActionListener(e ->
+            JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...")
+        );
+        add(forgotPassword);
+    }
 
-        // Sign In Button
-        JButton signInButtons = new JButton("SIGN IN");
-        signInButtons.setFont(new Font("Alata", Font.BOLD, 16));
-        signInButtons.setBackground(new Color(255, 149, 0));
-        signInButtons.setForeground(Color.WHITE);
-        signInButtons.setOpaque(true);                       // Allow background to show
-        signInButtons.setBorderPainted(false);               // Optional: cleaner look
-        signInButtons.setBounds(52, 479, 271, 58);
-        add(signInButtons);
+    private void addSignInButton() {
+        signInButton = new JButton("SIGN IN");
+        signInButton.setFont(new Font("Alata", Font.BOLD, 16));
+        signInButton.setBackground(ORANGE);
+        signInButton.setForeground(Color.WHITE);
+        signInButton.setOpaque(true);
+        signInButton.setBorderPainted(false);
+        signInButton.setBounds(52, 465, 271, 58);
+        add(signInButton);
+    }
 
-       
-
-        // Sign up prompt
-        
+    private void addSignUpPrompt() {
         JLabel orLabel = new JLabel("OR");
         orLabel.setFont(new Font("Alata", Font.PLAIN, 16));
         orLabel.setForeground(new Color(157, 152, 152));
-        orLabel.setBounds(175, 551, 50, 25);
+        orLabel.setBounds(175, 537, 50, 25);
         add(orLabel);
-    
+
         JLabel promptLabel = new JLabel("Don't have an account? ");
         promptLabel.setFont(new Font("Alata", Font.PLAIN, 15));
-        promptLabel.setBounds(79, 585, 200, 25);
+        promptLabel.setBounds(79, 571, 200, 25);
         add(promptLabel);
-    
-        JButton signInButton = new JButton("Sign in");
-        signInButton.setFont(new Font("Alata", Font.PLAIN, 15));
-        signInButton.setForeground(Color.ORANGE);
-        signInButton.setBounds(240, 585, 100, 25);
-        signInButton.setBorderPainted(false);
-        signInButton.setContentAreaFilled(false);
-        signInButton.setFocusPainted(false);
-        signInButton.setOpaque(false);
-        signInButton.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this, "Redirecting to Sign Up page...");
-            });
-        add(signInButton);
 
-        
+        goToSignUpButton = new JButton("Sign up");
+        goToSignUpButton.setFont(new Font("Alata", Font.PLAIN, 15));
+        goToSignUpButton.setForeground(ORANGE);
+        goToSignUpButton.setBounds(240, 571, 100, 25);
+        goToSignUpButton.setBorderPainted(false);
+        goToSignUpButton.setContentAreaFilled(false);
+        goToSignUpButton.setFocusPainted(false);
+        goToSignUpButton.setOpaque(false);
+        goToSignUpButton.addActionListener(e ->
+            JOptionPane.showMessageDialog(this, "Redirecting to Sign Up page...")
+        );
+
+        goToSignUpButton.addActionListener(e -> {
+        if (controller != null) controller.showSignUp();
+        });
+
+        add(goToSignUpButton);
     }
 
-    // Method to add placeholder behavior to text components
     private void addPlaceholderBehavior(JTextComponent field, String placeholder) {
         field.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
@@ -183,27 +191,22 @@ showPassword.addActionListener(e -> {
                     field.setForeground(Color.GRAY);
                     if (field instanceof JPasswordField) {
                         ((JPasswordField) field).setEchoChar((char) 0);
-            
                     }
                 }
             }
-            
         });
     }
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Find the FunKtion - Sign In");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().add(new SignIn());
-            frame.pack();
+            frame.setSize(375, 812);
             frame.setLocationRelativeTo(null);
+
+            // Pass null since we're just testing the SignUp UI
+            frame.setContentPane(new SignIn(null));
             frame.setVisible(true);
         });
     }
 }
-
-
-    
-
