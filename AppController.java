@@ -14,9 +14,6 @@ public class AppController {
 
     public void showSplash() {
         appGUI.showPanel("splash");
-
-        // After 10 seconds, switch to SignIn
-        new javax.swing.Timer(10000, e -> showSignIn()).start();
     }
 
     public void showSignIn() {
