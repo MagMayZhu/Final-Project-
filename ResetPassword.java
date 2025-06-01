@@ -10,7 +10,6 @@ public class ResetPassword extends JPanel {
     private JButton shiftButton;
     private final AppController controller;
 
-
     public ResetPassword(AppController controller) {
         this.controller = controller;
 
