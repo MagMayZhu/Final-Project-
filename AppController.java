@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class AppController {
     private final AppGUI appGUI;
@@ -22,6 +21,10 @@ public class AppController {
 
     public void showSignUp() {
         appGUI.showPanel("signup");
+    }
+
+    public void showHome() {
+        appGUI.showPanel("home");
     }
 
     public JFrame getFrame() {

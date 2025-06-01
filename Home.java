@@ -7,8 +7,10 @@ public class Home extends JPanel {
     private JPanel headerPanel;
     private JPanel scrollContainer;
     private JPanel bottomNav;
+    private AppController controller;
 
-    public Home() {
+    public Home(AppController controller) {
+        this.controller = controller;
         setLayout(null);
         setPreferredSize(new Dimension(375, 812));
         setBackground(Color.WHITE);
@@ -191,9 +193,11 @@ public class Home extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Find the FunKtion - Home");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setContentPane(new Home());
-            frame.pack();
+            frame.setSize(375, 812);
             frame.setLocationRelativeTo(null);
+
+            // Pass null since we're just testing the SignUp UI
+            frame.setContentPane(new Home(null));
             frame.setVisible(true);
         });
     }

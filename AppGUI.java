@@ -19,10 +19,12 @@ public class AppGUI {
         Splash splash = new Splash(controller);
         SignIn signIn = new SignIn(controller);
         SignUp signUp = new SignUp(controller);
+        Home home = new Home(controller);
 
         mainPanel.add(splash, "splash");
         mainPanel.add(signIn, "signin");
         mainPanel.add(signUp, "signup");
+        mainPanel.add(home, "home");
 
         frame.setContentPane(mainPanel);
         frame.setVisible(true);

@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Splash extends JPanel {
-    private AppController controller;
+    private final AppController controller;
 
     public Splash(AppController controller) {
         this.controller = controller;
@@ -13,7 +13,7 @@ public class Splash extends JPanel {
         addSplashText();
 
         // Auto transition to SignIn after 2.5 seconds
-        Timer timer = new Timer(2500, e -> controller.showSignIn());
+        Timer timer = new Timer(2500, _ -> this.controller.showSignIn());
         timer.setRepeats(false);
         timer.start();
     }

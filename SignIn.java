@@ -100,7 +100,7 @@ public class SignIn extends JPanel {
         showPassword.setFont(new Font("Alata", Font.PLAIN, 12));
         showPassword.setBounds(226, 390, 120, 20);
         showPassword.setOpaque(false);
-        showPassword.addActionListener(e -> {
+        showPassword.addActionListener(_ -> {
             if (!isPasswordPlaceholder[0]) {
                 passwordField.setEchoChar(showPassword.isSelected() ? (char) 0 : '•');
             }
@@ -125,7 +125,7 @@ public class SignIn extends JPanel {
         forgotPassword.setContentAreaFilled(false);
         forgotPassword.setFocusPainted(false);
         forgotPassword.setOpaque(false);
-        forgotPassword.addActionListener(e ->
+        forgotPassword.addActionListener(_ ->
             JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...")
         );
         add(forgotPassword);
@@ -139,6 +139,9 @@ public class SignIn extends JPanel {
         signInButton.setOpaque(true);
         signInButton.setBorderPainted(false);
         signInButton.setBounds(52, 465, 271, 58);
+        signInButton.addActionListener(_ -> {
+        if (controller != null) controller.showHome();
+        });
         add(signInButton);
     }
 
@@ -162,11 +165,11 @@ public class SignIn extends JPanel {
         goToSignUpButton.setContentAreaFilled(false);
         goToSignUpButton.setFocusPainted(false);
         goToSignUpButton.setOpaque(false);
-        goToSignUpButton.addActionListener(e ->
+        goToSignUpButton.addActionListener(_ ->
             JOptionPane.showMessageDialog(this, "Redirecting to Sign Up page...")
         );
 
-        goToSignUpButton.addActionListener(e -> {
+        goToSignUpButton.addActionListener(_ -> {
         if (controller != null) controller.showSignUp();
         });
 

@@ -29,11 +29,11 @@ public class SignUp extends JPanel {
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("Alata", Font.BOLD, 25));
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             JOptionPane.showMessageDialog(this, "Back button clicked!");
         });
 
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             if (controller != null) controller.showSignIn();
         });
         this.add(backButton);
@@ -96,7 +96,7 @@ public class SignUp extends JPanel {
         signUpButton.setBorderPainted(false);
         signUpButton.setBackground(ORANGE);
         signUpButton.setHorizontalAlignment(SwingConstants.CENTER);
-        signUpButton.addActionListener(e -> {
+        signUpButton.addActionListener(_ -> {
             JOptionPane.showMessageDialog(this, "Signing up...");
         });
         add(signUpButton);
@@ -122,11 +122,11 @@ public class SignUp extends JPanel {
         signInButton.setContentAreaFilled(false);
         signInButton.setFocusPainted(false);
         signInButton.setOpaque(false);
-        signInButton.addActionListener(e -> {
+        signInButton.addActionListener(_ -> {
             JOptionPane.showMessageDialog(this, "Redirecting to Sign In page...");
         });
 
-        signInButton.addActionListener(e -> {
+        signInButton.addActionListener(_ -> {
         if (controller != null) controller.showSignIn();
         });
 
@@ -192,8 +192,8 @@ public class SignUp extends JPanel {
         toggle.setFont(new Font("Alata", Font.PLAIN, 12));
         toggle.setBounds(x + width - 120, y + height + 5, 120, 20);
         toggle.setOpaque(false);
-        toggle.addActionListener(e -> {
-            String text = new String(field.getPassword());
+        toggle.addActionListener(_ -> {
+            // String text = new String(field.getPassword());
             if (!isPlaceholder[0]) {
                 field.setEchoChar(toggle.isSelected() ? (char) 0 : '•');
             }
