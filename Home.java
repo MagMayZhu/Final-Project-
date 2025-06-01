@@ -156,6 +156,10 @@ public class Home extends JPanel {
         createEventBtn.setContentAreaFilled(true);
         createEventBtn.setHorizontalAlignment(SwingConstants.CENTER);
         createEventBtn.setVerticalAlignment(SwingConstants.CENTER);
+        createEventBtn.addActionListener(_ -> {
+            if (controller != null) controller.showCreateEvent();
+            else JOptionPane.showMessageDialog(this, "Redirecting to Create Event page...");}
+        );
         bottomNav.add(createEventBtn);
 
         JButton profileBtn = new JButton("Profile");

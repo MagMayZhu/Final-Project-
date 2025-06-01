@@ -32,6 +32,21 @@ public class AppController {
         appGUI.showPanel("resetPassword");
     }
 
+    public void showCreateEvent()
+    {
+        appGUI.showPanel("createEvent");
+    }
+
+    public void showMyProfile()
+    {
+        appGUI.showPanel("myProfile");
+    }
+
+    public void showEditMyProfile()
+    {
+        appGUI.showPanel("editMyProfile");
+    }
+
     public JFrame getFrame() {
         return appGUI.getFrame();
     }
