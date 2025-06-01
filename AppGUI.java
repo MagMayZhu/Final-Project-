@@ -20,11 +20,13 @@ public class AppGUI {
         SignIn signIn = new SignIn(controller);
         SignUp signUp = new SignUp(controller);
         Home home = new Home(controller);
+        ResetPassword resetPassword = new ResetPassword(controller);
 
         mainPanel.add(splash, "splash");
         mainPanel.add(signIn, "signin");
         mainPanel.add(signUp, "signup");
         mainPanel.add(home, "home");
+        mainPanel.add(resetPassword,"resetPassword");
 
         frame.setContentPane(mainPanel);
         frame.setVisible(true);

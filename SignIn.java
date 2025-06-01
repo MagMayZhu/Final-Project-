@@ -125,8 +125,9 @@ public class SignIn extends JPanel {
         forgotPassword.setContentAreaFilled(false);
         forgotPassword.setFocusPainted(false);
         forgotPassword.setOpaque(false);
-        forgotPassword.addActionListener(_ ->
-            JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...")
+        forgotPassword.addActionListener(_ -> {
+            if (controller != null) controller.showResetPassword();
+            else JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...");}
         );
         add(forgotPassword);
     }

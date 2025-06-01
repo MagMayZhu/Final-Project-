@@ -27,6 +27,11 @@ public class AppController {
         appGUI.showPanel("home");
     }
 
+    public void showResetPassword()
+    {
+        appGUI.showPanel("resetPassword");
+    }
+
     public JFrame getFrame() {
         return appGUI.getFrame();
     }
