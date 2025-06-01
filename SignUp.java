@@ -33,7 +33,7 @@ public class SignUp extends JPanel {
         backButton.addActionListener(_ -> {
             if (controller != null) controller.showSignIn();
         });
-        this.add(backButton);
+        add(backButton);
     }
 
     private void addTitleLabel() {
