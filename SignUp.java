@@ -29,9 +29,6 @@ public class SignUp extends JPanel {
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("Alata", Font.BOLD, 25));
-        backButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(this, "Back button clicked!");
-        });
 
         backButton.addActionListener(_ -> {
             if (controller != null) controller.showSignIn();
@@ -122,9 +119,6 @@ public class SignUp extends JPanel {
         signInButton.setContentAreaFilled(false);
         signInButton.setFocusPainted(false);
         signInButton.setOpaque(false);
-        signInButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(this, "Redirecting to Sign In page...");
-        });
 
         signInButton.addActionListener(_ -> {
         if (controller != null) controller.showSignIn();
