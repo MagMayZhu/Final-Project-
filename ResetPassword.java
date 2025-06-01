@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class ResetPassword extends JPanel {
@@ -8,83 +8,84 @@ public class ResetPassword extends JPanel {
     private boolean isUpperCase = false; // Track uppercase/lowercase state
     private ArrayList<JButton> letterButtons = new ArrayList<>(); // Keep track of letter buttons to update text
     private JButton shiftButton;
+    private final AppController controller;
 
-    public ResetPassword() {
+
+    public ResetPassword(AppController controller) {
+        this.controller = controller;
+
         setLayout(null);
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(375, 780));
+        setPreferredSize(new Dimension(375, 812));
 
-        // Status bar time
-        JLabel timeLabel = new JLabel("9:41");
-        timeLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-        timeLabel.setForeground(new Color(0x120D26));
-        timeLabel.setBounds(21, 7, 50, 20);
-        add(timeLabel);
+        addBackButton();
+        addTitleAndSubtitle();
+        addEmailField();
+        addSendButton();
+        addKeyboard();
+    }
 
-        // Back button
-        JButton backButton = new JButton("\u2190"); // Unicode left arrow
-        backButton.setBounds(24, 53, 40, 30);
+    private void addBackButton() {
+        JButton backButton = new JButton("\u2190");
+        backButton.setBounds(10, 10, 60, 30);
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
-        backButton.setFont(new Font("sansSerif", Font.BOLD, 25));
-        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    
-        // Placeholder action - replace with actual navigation
-        backButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(this, "Back button clicked!");
-        });
-    
-        add(backButton);
+        backButton.setFont(new Font("Alata", Font.BOLD, 25));
 
-        // Title
+        backButton.addActionListener(_ -> {
+            if (controller != null) controller.showSignIn();
+        });
+        add(backButton);
+    }
+
+    private void addTitleAndSubtitle() {
         JLabel titleLabel = new JLabel("Reset Password");
         titleLabel.setFont(new Font("sansSerif", Font.BOLD, 24));
         titleLabel.setForeground(new Color(0x120D26));
         titleLabel.setBounds(28, 94, 300, 30);
         add(titleLabel);
 
-        // Subtitle
         JLabel subtitleLabel = new JLabel("<html>Please enter your email address<br>to request a password reset.</html>");
         subtitleLabel.setFont(new Font("sansSerif", Font.PLAIN, 15));
         subtitleLabel.setForeground(new Color(0x120D26));
         subtitleLabel.setBounds(28, 130, 300, 50);
         add(subtitleLabel);
+    }
 
-        // Email field
-        emailField = new JTextField();
-        emailField.setBounds(28, 190, 317, 56);
-        emailField.setFont(new Font("sansSerif", Font.PLAIN, 16));
+    private void addEmailField() {
+        emailField = createPlaceholderField("Email", 28, 190, 317, 40);
         emailField.setBorder(BorderFactory.createLineBorder(new Color(0xE4DFDF), 1));
         emailField.setBackground(Color.WHITE);
         emailField.setMargin(new Insets(10, 15, 10, 15));
-        add(emailField);
+    }
 
-        // SEND button
+    private void addSendButton() {
         JButton sendButton = new JButton("SEND");
         sendButton.setBounds(52, 260, 271, 58);
         sendButton.setFont(new Font("sansSerif", Font.BOLD, 16));
         sendButton.setForeground(Color.WHITE);
-        sendButton.setBackground(new Color(0xFF9500)); // Orange
-        sendButton.setFocusPainted(false);
-        sendButton.setBorder(BorderFactory.createEmptyBorder());
-        sendButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        sendButton.setBackground(new Color(0xFF9500));
+        styleButton(sendButton, null);
         sendButton.setOpaque(true);
-        sendButton.setBorder(BorderFactory.createLineBorder(new Color(0xFF9500), 1, true)); // Rounded feel
-        add(sendButton);
+        sendButton.setBorder(BorderFactory.createLineBorder(new Color(0xFF9500), 1, true));
+        sendButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         sendButton.addActionListener(_ -> {
-            String email = emailField.getText();
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please enter your email address.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Reset link sent to: " + email);
-            }
-        });
+        String email = emailField.getText().trim();
+        if (email.isEmpty()|| email.equals("Email")) {
+            JOptionPane.showMessageDialog(this, "Please enter your email address.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Reset link sent to: " + email);
+        }
+    });
 
-        // Custom mobile-style keyboard
+        add(sendButton);
+    }
+
+    private void addKeyboard() {
         JPanel keyboardPanel = createMobileKeyboardPanel();
-        keyboardPanel.setBounds(0, 350, 375, 380);
+        keyboardPanel.setBounds(0, 432, 375, 380);
         add(keyboardPanel);
     }
 
@@ -93,16 +94,14 @@ public class ResetPassword extends JPanel {
         keyboardPanel.setLayout(new GridLayout(5, 1, 5, 5));
         keyboardPanel.setBackground(new Color(245, 245, 245));
 
-        // Clear letterButtons list on rebuild
         letterButtons.clear();
 
-        // Keyboard rows including Shift key added in the 4th row
         String[] rows = {
-            "1 2 3 4 5 6 7 8 9 0",
-            "Q W E R T Y U I O P",
-            "A S D F G H J K L",
-            "Z X C V B N M _ - @ .",
-            "SHIFT SPACE DEL ENTER"
+                "1 2 3 4 5 6 7 8 9 0",
+                "q w e r t y u i o p",
+                "a s d f g h j k l",
+                "SHIFT z x c v b n m DEL",
+                "_ - @ SPACE . ENTER"
         };
 
         for (String row : rows) {
@@ -116,28 +115,33 @@ public class ResetPassword extends JPanel {
                     case "SPACE" -> {
                         button = createKeyButton(" ");
                         button.setPreferredSize(new Dimension(120, 40));
-                        button.setText("SPACE");
+                        button.setText(" ");
                     }
                     case "DEL" -> {
                         button = new JButton("⌫");
-                        button.setPreferredSize(new Dimension(60, 40));
+                        button.setPreferredSize(new Dimension(50, 40));
                         button.addActionListener(_ -> {
                             String text = emailField.getText();
-                            if (!text.isEmpty()) {
+                            if (!text.isEmpty() && !text.equals("Email")) {
                                 emailField.setText(text.substring(0, text.length() - 1));
                             }
                         });
                     }
                     case "ENTER" -> {
-                        button = new JButton("⏎");
+                        button = new JButton("\u2192");
                         button.setPreferredSize(new Dimension(60, 40));
-                        button.addActionListener(_ ->
-                                JOptionPane.showMessageDialog(null,
-                                        "Reset link sent to: " + emailField.getText()));
+                        button.addActionListener(_ -> {
+        String email = emailField.getText().trim();
+        if (email.isEmpty() || email.equals("Email")) {
+            JOptionPane.showMessageDialog(this, "Please enter your email address.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Reset link sent to: " + email);
+        }
+    });
                     }
                     case "SHIFT" -> {
                         button = new JButton("Shift");
-                        button.setPreferredSize(new Dimension(60, 40));
+                        button.setPreferredSize(new Dimension(50, 40));
                         shiftButton = button;
                         updateShiftButtonStyle();
                         button.addActionListener(_ -> {
@@ -147,11 +151,8 @@ public class ResetPassword extends JPanel {
                         });
                     }
                     default -> {
-                        // If it's a letter key, adjust case accordingly
                         String displayKey = isUpperCase ? key.toUpperCase() : key.toLowerCase();
                         button = createKeyButton(displayKey);
-
-                        // Track letter buttons only (letters and underscore, dash, @, . are not letters)
                         if (key.matches("[a-zA-Z]")) {
                             letterButtons.add(button);
                         }
@@ -172,10 +173,24 @@ public class ResetPassword extends JPanel {
         JButton button = new JButton(key);
         button.setPreferredSize(new Dimension(32, 40));
         button.setFont(new Font("sansSerif", Font.PLAIN, 14));
-        button.addActionListener((ActionEvent _) -> {
+        button.addActionListener(_ -> {
+            if (emailField.getText().equals("Email")) {
+                emailField.setText("");
+                emailField.setForeground(Color.BLACK);
+            }
             emailField.setText(emailField.getText() + button.getText());
         });
+
         return button;
+    }
+
+    private void styleButton(JButton button, Font font) {
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        if (font != null) {
+            button.setFont(font);
+        }
     }
 
     private void styleKeyButton(JButton button) {
@@ -188,18 +203,14 @@ public class ResetPassword extends JPanel {
     private void updateKeysCase() {
         for (JButton btn : letterButtons) {
             String currentText = btn.getText();
-            if (isUpperCase) {
-                btn.setText(currentText.toUpperCase());
-            } else {
-                btn.setText(currentText.toLowerCase());
-            }
+            btn.setText(isUpperCase ? currentText.toUpperCase() : currentText.toLowerCase());
         }
     }
 
     private void updateShiftButtonStyle() {
         if (shiftButton != null) {
             if (isUpperCase) {
-                shiftButton.setBackground(new Color(0xFF9500)); // Orange when active
+                shiftButton.setBackground(new Color(0xFF9500));
                 shiftButton.setForeground(Color.WHITE);
             } else {
                 shiftButton.setBackground(Color.WHITE);
@@ -208,12 +219,36 @@ public class ResetPassword extends JPanel {
         }
     }
 
-    // Main method to test the panel
+    private JTextField createPlaceholderField(String placeholder, int x, int y, int width, int height) {
+        JTextField field = new JTextField(placeholder);
+        field.setForeground(Color.GRAY);
+        field.setBounds(x, y, width, height);
+        field.setFont(new Font("Alata", Font.PLAIN, 14));
+        field.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+            }
+
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(Color.GRAY);
+                    field.setText(placeholder);
+                }
+            }
+        });
+        add(field);
+        return field;
+    }
+
+    // For testing only
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Reset Password");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().add(new ResetPassword());
+            frame.getContentPane().add(new ResetPassword(null)); // pass actual controller here
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
