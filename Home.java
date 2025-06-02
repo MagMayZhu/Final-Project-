@@ -165,6 +165,10 @@ public class Home extends JPanel {
         JButton profileBtn = new JButton("Profile");
         profileBtn.setBounds(265, 0, 80, 35);
         profileBtn.setBackground(Color.WHITE);
+        profileBtn.addActionListener(_ -> {
+            if (controller != null) controller.showMyProfile();
+            else JOptionPane.showMessageDialog(this, "Redirecting to My Profile page...");}
+        );
         bottomNav.add(profileBtn);
 
         add(bottomNav);

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,20 +10,32 @@ public class EditMyProfile extends JPanel {
     private JTextArea aboutInput;
     private JLabel previewImage;
     private ImageIcon selectedImage;
-    private MyProfile mainProfile;
+    // private MyProfile mainProfile;
     private List<JCheckBox> interestCheckboxes = new ArrayList<>();
 
-    public EditMyProfile(MyProfile profileRef, String currentName, String currentAbout, Icon currentIcon, List<String> interests) {
-        this.mainProfile = profileRef;
+    private AppController controller;
+    private User user;
+
+    public EditMyProfile(AppController controller)
+    {
+        this.controller = controller;
+        this.user = controller.getUser();
         
         setLayout(null);
-        setPreferredSize(new Dimension(375, 620));
+        setPreferredSize(new Dimension(375, 812));
         setBackground(Color.WHITE);
 
-        initComponents(currentName, currentAbout, currentIcon, interests);
+        initComponents();
     }
 
-    private void initComponents(String currentName, String currentAbout, Icon currentIcon, List<String> interests){
+    private void initComponents()
+    {
+        // Loading data from initial user
+        String currentName = user.getName();
+        String currentBio = user.getBio();
+        Icon currentIcon = user.getImage();
+        List<String> interests = user.getInterests();
+
         previewImage = new JLabel(currentIcon);
         previewImage.setBounds(140, 10, 96, 90);
         add(previewImage);
@@ -57,7 +70,7 @@ public class EditMyProfile extends JPanel {
         aboutLabel.setBounds(20, 215, 100, 20);
         add(aboutLabel);
 
-        aboutInput = new JTextArea(currentAbout);
+        aboutInput = new JTextArea(currentBio);
         aboutInput.setLineWrap(true);
         aboutInput.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(aboutInput);
@@ -101,60 +114,86 @@ public class EditMyProfile extends JPanel {
         add(cancelButton);
 
         cancelButton.addActionListener(_ -> {
-            Window window = SwingUtilities.getWindowAncestor(this);
-            if (window != null) {
-                window.dispose();
+            if (controller != null)
+            {
+                controller.showMyProfile();
+            }
+            else
+            {
+                Window window = SwingUtilities.getWindowAncestor(this);
+                if (window != null) 
+                {
+                    window.dispose();
+                }
             }
         });
     }
 
     private void saveProfile() {
-        String newName = nameInput.getText();
-        String newAbout = aboutInput.getText();
-        List<String> newInterests = new ArrayList<>();
-        
-        for (JCheckBox cb : interestCheckboxes) {
-            if (cb.isSelected()) {
-                newInterests.add(cb.getText());
-            }
+        // Get new values from inputs
+    String newName = nameInput.getText();
+    String newAbout = aboutInput.getText();
+    List<String> newInterests = new ArrayList<>();
+    for (JCheckBox cb : interestCheckboxes) {
+        if (cb.isSelected()) {
+            newInterests.add(cb.getText());
         }
-        
-        if (selectedImage == null) {
-            Icon icon = previewImage.getIcon();
-            if (icon instanceof ImageIcon) {
-                selectedImage = (ImageIcon) icon;
-            }
+    }
+    ImageIcon newImage = selectedImage != null ? selectedImage : (ImageIcon) previewImage.getIcon();
+
+    // Update user object via controller (or direct reference)
+    controller.getUser().setName(newName);
+    controller.getUser().setBio(newAbout);
+    controller.getUser().setImage(newImage);
+    controller.getUser().setInterests(newInterests);
+    
+        // Notify controller to update database and refresh profile UI
+        if (controller != null) {
+            // controller.updateUserProfile(user);
+            controller.showMyProfile();
         }
-        
-        mainProfile.updateProfile(newName, newAbout, selectedImage, newInterests);
-        
-        // Get the top-level window and dispose it
-        Window window = SwingUtilities.getWindowAncestor(this);
-        if (window != null) {
-            window.dispose();
-        }
+    
+        // // Close window if applicable
+        // Window window = SwingUtilities.getWindowAncestor(this);
+        // if (window != null) {
+        //     window.dispose();
+        // }
         
         JOptionPane.showMessageDialog(this, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void refreshData() {
+    this.user = controller.getUser();
+    nameInput.setText(user.getName());
+    aboutInput.setText(user.getBio());
+    previewImage.setIcon(user.getImage());
+    selectedImage = null; // reset to ensure updates happen properly
+
+    // Update checkboxes based on interests
+    List<String> interests = user.getInterests();
+    for (JCheckBox cb : interestCheckboxes) {
+        cb.setSelected(interests.contains(cb.getText()));
+    }
+}
+
+
     // Main method for testing
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            // Create a dummy profile for testing
-            MyProfile dummyProfile = new MyProfile();
-            
-            JFrame frame = new JFrame("Edit Profile");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new EditMyProfile(
-                dummyProfile,
-                "Test Name",
-                "Test About",
-                new ImageIcon(),
-                List.of("Culture", "Social")
-            ));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-    }
+    SwingUtilities.invokeLater(() -> {
+        User testUser = new User(
+            "Jane Doe",
+            "I love hiking and reading.",
+            new ImageIcon(new BufferedImage(96, 90, BufferedImage.TYPE_INT_ARGB)),
+            List.of("Culture", "Creative")
+        );
+
+        JFrame frame = new JFrame("Edit My Profile");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new EditMyProfile(null));  // controller is null for UI test
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    });
+}
+
 }

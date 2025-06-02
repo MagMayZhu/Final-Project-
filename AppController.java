@@ -1,10 +1,25 @@
+import java.util.List;
+
 import javax.swing.*;
 
 public class AppController {
     private final AppGUI appGUI;
+    private final User user;
 
-    public AppController() {
+    public AppController()
+    {
+        this.user = new User(
+            "Your Name",
+            "Your bio here",
+            new ImageIcon("default.png"),
+            List.of("Academic", "Creative")
+        );
         appGUI = new AppGUI(this);
+    }
+
+    public User getUser()
+    {
+        return user;
     }
 
     public void startApp() {
