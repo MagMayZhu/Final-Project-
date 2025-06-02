@@ -22,7 +22,7 @@ public class test {
     public void testValidPass() {
         assertTrue(Validator.validPassword("Password12"));
         assertTrue(Validator.validPassword("Valid1234"));
-        assertTrue(Validator.validPassword("123456b"));
+       assertTrue(Validator.validPassword("goodness123"));
         assertTrue(Validator.validPassword("StrongPass1"));;
     }
     @Test
