@@ -1,4 +1,4 @@
-// Java Swing version of the UI structure based on cleaned HTML structure
+
 import javax.swing.*;
 import java.awt.*;
 
