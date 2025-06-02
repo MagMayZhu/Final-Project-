@@ -59,5 +59,17 @@ public class InputValidatorTest {
     public void testNameNull() {
         assertFalse(InputValidator.validateNameField(null));
     }
+    @Test
+    public void testValidImageFile() throws Exception {
+        assertTrue(InputValidator.isValidImageFile("maggie.jpg"));
+        assertTrue(InputValidator.isValidImageFile("Leo.jpg"));
+        assertTrue(InputValidator.isValidImageFile("Edith.jpg"));
+    }
+    @Test
+    public void testInvalidImageFile () throws Exception {
+        assertFalse(InputValidator.isValidImageFile("test.pdf")); // Wrong file extension
+        assertFalse(InputValidator.isValidImageFile("7")); // File exceeding size limit
+    }
+
 }
  

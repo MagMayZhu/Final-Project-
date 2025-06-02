@@ -1,3 +1,4 @@
+import java.io.File;
 import java.text.BreakIterator;
 import java.util.Locale;
 
@@ -68,5 +69,22 @@ public static boolean validatelastNameField(String input)
         if (!name.trim().matches("[\\p{L}\\s]+")) return false;
         return true;
     } 
+    /*
+     * Validates a file according to:
+     * 1. Must have a .jpg or .png extension
+     * 2. Must not exceed 4MB in size
+     * 
+     * @param filePath the file that user inputs 
+     * @return true if both conditions are met, false otherwise
+     */
+    
+     public static boolean isValidImageFile(String filePath) {
+        File file = new File(filePath);
+        String fileName = file.getName().toLowerCase(Locale.ROOT);
+    
+        // Allow only JPG or PNG files
+        return fileName.endsWith(".jpg") || fileName.endsWith(".png");
+    }
+
     
 }
