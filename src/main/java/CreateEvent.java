@@ -12,10 +12,14 @@ public class CreateEvent extends JPanel {
     private JTextField nameField, dateField, timeField, locationField, hostField;
     private JTextArea descriptionArea;
     private JLabel imageLabel;
+    private final AppController controller;
 
-    public CreateEvent() {
+    public CreateEvent(AppController controller) {
+        this.controller = controller;
+
         setLayout(null);
         setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(375, 812));
 
         addBackButton();
         addTitle();
@@ -33,8 +37,8 @@ public class CreateEvent extends JPanel {
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("SansSerif", Font.BOLD, 25));
-        backButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(this, "Back button clicked!");
+        backButton.addActionListener(e -> {
+            if (controller != null) controller.showHome();
         });
         add(backButton);
     }
@@ -209,13 +213,15 @@ public class CreateEvent extends JPanel {
 
     // Main method for standalone testing
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Create Event");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(375, 812);
-            frame.setLocationRelativeTo(null);
-            frame.setContentPane(new CreateEvent());
-            frame.setVisible(true);
-        });
-    }
+    SwingUtilities.invokeLater(() -> {
+        JFrame frame = new JFrame("Find the FunKtion - Create Event");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(375, 812);
+        frame.setLocationRelativeTo(null);
+
+        // Pass null since we're just testing the SignUp UI
+        frame.setContentPane(new CreateEvent(null));
+        frame.setVisible(true);
+    });
+}
 }

@@ -125,8 +125,9 @@ public class SignIn extends JPanel {
         forgotPassword.setContentAreaFilled(false);
         forgotPassword.setFocusPainted(false);
         forgotPassword.setOpaque(false);
-        forgotPassword.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...")
+        forgotPassword.addActionListener(e -> {
+            if (controller != null) controller.showResetPassword();
+            else JOptionPane.showMessageDialog(this, "Redirecting to Reset Password page...");}
         );
         add(forgotPassword);
     }
@@ -139,6 +140,9 @@ public class SignIn extends JPanel {
         signInButton.setOpaque(true);
         signInButton.setBorderPainted(false);
         signInButton.setBounds(52, 465, 271, 58);
+        signInButton.addActionListener(e -> {
+        if (controller != null) controller.showHome();
+        });
         add(signInButton);
     }
 

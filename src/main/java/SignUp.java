@@ -29,14 +29,11 @@ public class SignUp extends JPanel {
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("Alata", Font.BOLD, 25));
-        backButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Back button clicked!");
-        });
 
         backButton.addActionListener(e -> {
             if (controller != null) controller.showSignIn();
         });
-        this.add(backButton);
+        add(backButton);
     }
 
     private void addTitleLabel() {
@@ -122,9 +119,6 @@ public class SignUp extends JPanel {
         signInButton.setContentAreaFilled(false);
         signInButton.setFocusPainted(false);
         signInButton.setOpaque(false);
-        signInButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Redirecting to Sign In page...");
-        });
 
         signInButton.addActionListener(e -> {
         if (controller != null) controller.showSignIn();
@@ -193,7 +187,7 @@ public class SignUp extends JPanel {
         toggle.setBounds(x + width - 120, y + height + 5, 120, 20);
         toggle.setOpaque(false);
         toggle.addActionListener(e -> {
-            String text = new String(field.getPassword());
+            // String text = new String(field.getPassword());
             if (!isPlaceholder[0]) {
                 field.setEchoChar(toggle.isSelected() ? (char) 0 : '•');
             }
