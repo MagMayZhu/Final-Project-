@@ -24,3 +24,4 @@ out/
 
 # Environment variables file (for secrets)
 .env
+config.properties
