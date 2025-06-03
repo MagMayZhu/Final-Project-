@@ -7,7 +7,7 @@ CREATE TABLE "Users" (
     "lastname" VARCHAR(255) NOT NULL,
     "email" VARCHAR(400) NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
-    "name" VARCHAR(255) DEFAULT NULL,
+    "display_name" VARCHAR(255) NOT NULL,
     "profile_picture" TEXT DEFAULT 'default_profile.jpg',
     "bio" VARCHAR(200) DEFAULT 'Add bio here'
 );
