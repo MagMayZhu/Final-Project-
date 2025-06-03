@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,13 +220,6 @@ public class MyProfile extends JPanel
 
     public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-        User testUser = new User(
-            "Jane Doe",
-            "I love hiking and reading.",
-            new ImageIcon(new BufferedImage(96, 90, BufferedImage.TYPE_INT_ARGB)),
-            List.of("Culture", "Creative")
-        );
-
         JFrame frame = new JFrame("My Profile");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new MyProfile(null));  // controller is null for UI test

@@ -1,14 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 public class AppGUI {
     private final JFrame frame;
     private final CardLayout layout;
     private final JPanel mainPanel;
 
-    private final User user;
     private final MyProfile myProfile;
     private final EditMyProfile editMyProfile;
 
@@ -20,14 +17,6 @@ public class AppGUI {
 
         layout = new CardLayout();
         mainPanel = new JPanel(layout);
-
-        // Initialize user with some default info
-        user = new User(
-            "Your Name",
-            "Your bio here",
-            new ImageIcon("default.png"),
-            List.of("Academic", "Creative")
-        );
 
         // Screens
         Splash splash = new Splash(controller);
