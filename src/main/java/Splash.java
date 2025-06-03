@@ -13,7 +13,7 @@ public class Splash extends JPanel {
         addSplashText();
 
         // Auto transition to SignIn after 2.5 seconds
-        Timer timer = new Timer(2500, _ -> this.controller.showSignIn());
+        Timer timer = new Timer(2500, e -> this.controller.showSignIn());
         timer.setRepeats(false);
         timer.start();
     }

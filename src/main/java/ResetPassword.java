@@ -32,7 +32,7 @@ public class ResetPassword extends JPanel {
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("Alata", Font.BOLD, 25));
 
-        backButton.addActionListener(_ -> {
+        backButton.addActionListener(e -> {
             if (controller != null) controller.showSignIn();
         });
         add(backButton);
@@ -70,7 +70,7 @@ public class ResetPassword extends JPanel {
         sendButton.setBorder(BorderFactory.createLineBorder(new Color(0xFF9500), 1, true));
         sendButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        sendButton.addActionListener(_ -> {
+        sendButton.addActionListener(e -> {
         String email = emailField.getText().trim();
         if (email.isEmpty()|| email.equals("Email")) {
             JOptionPane.showMessageDialog(this, "Please enter your email address.");
@@ -119,7 +119,7 @@ public class ResetPassword extends JPanel {
                     case "DEL" -> {
                         button = new JButton("⌫");
                         button.setPreferredSize(new Dimension(50, 40));
-                        button.addActionListener(_ -> {
+                        button.addActionListener(e -> {
                             String text = emailField.getText();
                             if (!text.isEmpty() && !text.equals("Email")) {
                                 emailField.setText(text.substring(0, text.length() - 1));
@@ -129,7 +129,7 @@ public class ResetPassword extends JPanel {
                     case "ENTER" -> {
                         button = new JButton("\u2192");
                         button.setPreferredSize(new Dimension(60, 40));
-                        button.addActionListener(_ -> {
+                        button.addActionListener(e -> {
         String email = emailField.getText().trim();
         if (email.isEmpty() || email.equals("Email")) {
             JOptionPane.showMessageDialog(this, "Please enter your email address.");
@@ -143,7 +143,7 @@ public class ResetPassword extends JPanel {
                         button.setPreferredSize(new Dimension(50, 40));
                         shiftButton = button;
                         updateShiftButtonStyle();
-                        button.addActionListener(_ -> {
+                        button.addActionListener(e -> {
                             isUpperCase = !isUpperCase;
                             updateKeysCase();
                             updateShiftButtonStyle();
@@ -172,7 +172,7 @@ public class ResetPassword extends JPanel {
         JButton button = new JButton(key);
         button.setPreferredSize(new Dimension(32, 40));
         button.setFont(new Font("sansSerif", Font.PLAIN, 14));
-        button.addActionListener(_ -> {
+        button.addActionListener(e -> {
             if (emailField.getText().equals("Email")) {
                 emailField.setText("");
                 emailField.setForeground(Color.BLACK);

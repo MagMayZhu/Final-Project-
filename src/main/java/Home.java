@@ -156,7 +156,7 @@ public class Home extends JPanel {
         createEventBtn.setContentAreaFilled(true);
         createEventBtn.setHorizontalAlignment(SwingConstants.CENTER);
         createEventBtn.setVerticalAlignment(SwingConstants.CENTER);
-        createEventBtn.addActionListener(_ -> {
+        createEventBtn.addActionListener(e -> {
             if (controller != null) controller.showCreateEvent();
             else JOptionPane.showMessageDialog(this, "Redirecting to Create Event page...");}
         );
@@ -165,7 +165,7 @@ public class Home extends JPanel {
         JButton profileBtn = new JButton("Profile");
         profileBtn.setBounds(265, 0, 80, 35);
         profileBtn.setBackground(Color.WHITE);
-        profileBtn.addActionListener(_ -> {
+        profileBtn.addActionListener(e -> {
             if (controller != null) controller.showMyProfile();
             else JOptionPane.showMessageDialog(this, "Redirecting to My Profile page...");}
         );

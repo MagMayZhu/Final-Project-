@@ -41,7 +41,7 @@ public class MyProfile extends JPanel
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("SansSerif", Font.BOLD, 25));
-        backButton.addActionListener(_ -> {
+        backButton.addActionListener(e -> {
             if (controller != null) controller.showHome();
         });
         add(backButton);
@@ -103,7 +103,7 @@ public class MyProfile extends JPanel
         editButton.setOpaque(true);
         add(editButton);
 
-        editButton.addActionListener(_ -> controller.showEditMyProfile());
+        editButton.addActionListener(e -> controller.showEditMyProfile());
     }
 
     private void setupAboutSection() {

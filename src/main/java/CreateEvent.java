@@ -37,7 +37,7 @@ public class CreateEvent extends JPanel {
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setFont(new Font("SansSerif", Font.BOLD, 25));
-        backButton.addActionListener(_ -> {
+        backButton.addActionListener(e -> {
             if (controller != null) controller.showHome();
         });
         add(backButton);
@@ -161,7 +161,7 @@ public class CreateEvent extends JPanel {
             button.setFont(new Font("Alata", Font.PLAIN, 14));
             button.setBounds(xStart + (count % 2) * (width + gap), y, width, height);
             styleFilterButton(button, false);
-            button.addActionListener(_ -> {
+            button.addActionListener(e -> {
                 boolean isSelected = button.getBackground().equals(ORANGE);
                 styleFilterButton(button, !isSelected);
             });
@@ -186,7 +186,7 @@ public class CreateEvent extends JPanel {
         publish.setForeground(Color.WHITE);
         publish.setFocusPainted(false);
 
-        publish.addActionListener(_ -> {
+        publish.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Event published!");
 
             // For now, just print; later you can call controller.switchTo("EventDetail");

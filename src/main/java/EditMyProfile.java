@@ -44,7 +44,7 @@ public class EditMyProfile extends JPanel {
         changePic.setBounds(120, 105, 130, 25);
         add(changePic);
 
-        changePic.addActionListener(_ -> {
+        changePic.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             int option = chooser.showOpenDialog(this);
             if (option == JFileChooser.APPROVE_OPTION) {
@@ -102,7 +102,7 @@ public class EditMyProfile extends JPanel {
         saveButton.setFocusPainted(false);
         add(saveButton);
 
-        saveButton.addActionListener(_ -> saveProfile());
+        saveButton.addActionListener(e -> saveProfile());
         
         // Cancel Button
         JButton cancelButton = new JButton("Cancel");
@@ -112,7 +112,7 @@ public class EditMyProfile extends JPanel {
         cancelButton.setFocusPainted(false);
         add(cancelButton);
 
-        cancelButton.addActionListener(_ -> {
+        cancelButton.addActionListener(e -> {
             if (controller != null)
             {
                 controller.showMyProfile();
