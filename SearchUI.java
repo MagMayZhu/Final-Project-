@@ -1,6 +1,3 @@
-import javax.swing.text.JTextComponent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 

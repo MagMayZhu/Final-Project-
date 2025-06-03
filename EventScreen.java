@@ -1,6 +1,3 @@
-import javax.swing.text.JTextComponent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 
@@ -56,7 +53,7 @@ public class EventScreen extends JPanel {
         add(title);
 
         // Subtitle
-        JLabel subtitle = new JLabel("Lorem ipsum dolor sit amet, consectetur", SwingConstants.CENTER);
+        JLabel subtitle = new JLabel("No events Upcoming", SwingConstants.CENTER);
         subtitle.setFont(new Font("Alata", Font.PLAIN, 16));
         subtitle.setForeground(new Color(0x747688));
         subtitle.setBounds(54, 519, 268, 30);

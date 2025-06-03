@@ -3,21 +3,16 @@
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
+
+
+
+
 CREATE TABLE "Users" (
     "UsersID" int   NOT NULL UNIQUE,
     "firstName" varchar(255) NOT NULL,
     "lastName" varchar(255)   NOT NULL,
     "Email" varchar(400)   NOT NULL UNIQUE,
-    "Password" Hash   NOT NULL,
-    "RoleID" int   NOT NULL,
-    CONSTRAINT "pk_Users" PRIMARY KEY (
-        "UsersID"
-     )
-);
-
-CREATE TABLE "Role" (
-    "RoleID" int   NOT NULL UNIQUE,
-    "Clerance" String   NOT NULL
+    "Password" Hash   NOT NULL,  
 );
 
 CREATE TABLE "Location" (
@@ -69,4 +64,5 @@ REFERENCES "Filter" ("FilterID");
 
 ALTER TABLE "Host" ADD CONSTRAINT "fk_Host_User(s)" FOREIGN KEY("User(s)")
 REFERENCES "Users" ("UsersID");
+
 
