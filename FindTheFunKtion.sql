@@ -1,72 +1,59 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- Link to schema: https://app.quickdatabasediagrams.com/#/d/5xMfvX
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+﻿-- Active: 1748885272363@@localhost@5432@JEEMM305
 
-
+-- 1. USERS TABLE
 CREATE TABLE "Users" (
-    "UsersID" int   NOT NULL UNIQUE,
-    "firstName" varchar(255) NOT NULL,
-    "lastName" varchar(255)   NOT NULL,
-    "Email" varchar(400)   NOT NULL UNIQUE,
-    "Password" Hash   NOT NULL,
-    "RoleID" int   NOT NULL,
-    CONSTRAINT "pk_Users" PRIMARY KEY (
-        "UsersID"
-     )
+    "usersid" SERIAL PRIMARY KEY,
+    "firstname" VARCHAR(255) NOT NULL,
+    "lastname" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(400) NOT NULL UNIQUE,
+    "password" TEXT NOT NULL,
+    "name" VARCHAR(255) DEFAULT NULL,
+    "profile_picture" TEXT DEFAULT 'default_profile.jpg',
+    "bio" VARCHAR(200) DEFAULT 'Add bio here'
 );
 
-CREATE TABLE "Role" (
-    "RoleID" int   NOT NULL UNIQUE,
-    "Clerance" String   NOT NULL
+-- 2. LOCATIONS TABLE
+CREATE TABLE "Locations" (
+    "locationid" SERIAL PRIMARY KEY,
+    "house_number" VARCHAR(50),
+    "street" VARCHAR(255),
+    "secondary_address" VARCHAR(255),
+    "city" VARCHAR(100),
+    "state" VARCHAR(100),
+    "zipcode" VARCHAR(20)
 );
 
-CREATE TABLE "Location" (
-    "LocationID" int   NOT NULL UNIQUE,
-    "houseNumber" varchar(400)   NOT NULL,
-    "Street" varchar(400)   NOT NULL,
-    "Zipcode" varchar(400)   NOT NULL,
-    "City" varchar(400)   NOT NULL,
-    "SecondaryAddress" varchar(400)   NOT NULL
+-- 3. TAGS TABLE (shared between users and events)
+CREATE TABLE "Tags" (
+    "tagid" SERIAL PRIMARY KEY,
+    "tag_name" VARCHAR(50) UNIQUE NOT NULL
 );
 
+-- 4. EVENTS TABLE
 CREATE TABLE "Events" (
-    "EventID" int   NOT NULL UNIQUE,
-    "Name" varchar(400)   NOT NULL,
-    "Location" varchar(400)   NOT NULL,
-    "Host" varchar(400)   NOT NULL,
-    "Date" varchar(400)   NOT NULL,
-    "Time" varchar(400)   NOT NULL,
-    "FiltersID" int   NOT NULL
+    "eventid" SERIAL PRIMARY KEY,
+    "picture" TEXT,
+    "event_name" VARCHAR(255) NOT NULL,
+    "event_date" VARCHAR(50) NOT NULL, -- you can later cast to DATE if needed
+    "event_time" VARCHAR(50) NOT NULL,
+    "locationid" INT REFERENCES "Locations"("locationid") ON DELETE SET NULL,
+    "hostid" INT REFERENCES "Users"("usersid") ON DELETE CASCADE,
+    "description" TEXT
 );
 
-CREATE TABLE "Filter" (
-    "FilterID" int   NOT NULL UNIQUE,
-    "Description" string   NOT NULL,
-    "Food" boolean   NOT NULL,
-    "Free" boolean   NOT NULL,
-    "Sport" boolean   NOT NULL,
-    "Club" boolean   NOT NULL,
-    "offCampus" boolean   NOT NULL,
-    "Party" boolean   NOT NULL
+-- 5. USER TAGS (User Interests)
+CREATE TABLE "UserTags" (
+    "usersid" INT REFERENCES "Users"("usersid") ON DELETE CASCADE,
+    "tagid" INT REFERENCES "Tags"("tagid") ON DELETE CASCADE,
+    PRIMARY KEY ("usersid", "tagid")
 );
 
-CREATE TABLE "Host" (
-    "HostID" int   NOT NULL UNIQUE,
-    "User(s)" int   NOT NULL
+-- 6. EVENT TAGS (Event Filters)
+CREATE TABLE "EventTags" (
+    "eventid" INT REFERENCES "Events"("eventid") ON DELETE CASCADE,
+    "tagid" INT REFERENCES "Tags"("tagid") ON DELETE CASCADE,
+    PRIMARY KEY ("eventid", "tagid")
 );
 
-ALTER TABLE "Users" ADD CONSTRAINT "fk_Users_RoleID" FOREIGN KEY("RoleID")
-REFERENCES "Role" ("RoleID");
-
-ALTER TABLE "Events" ADD CONSTRAINT "fk_Events_Location" FOREIGN KEY("Location")
-REFERENCES "Location" ("LocationID");
-
-ALTER TABLE "Events" ADD CONSTRAINT "fk_Events_Host" FOREIGN KEY("Host")
-REFERENCES "Host" ("HostID");
-
-ALTER TABLE "Events" ADD CONSTRAINT "fk_Events_FiltersID" FOREIGN KEY("FiltersID")
-REFERENCES "Filter" ("FilterID");
-
-ALTER TABLE "Host" ADD CONSTRAINT "fk_Host_User(s)" FOREIGN KEY("User(s)")
-REFERENCES "Users" ("UsersID");
-
+INSERT INTO "Tags" (tag_name) VALUES
+('party'), ('club'), ('sport'), ('event'), ('art'), ('food');
