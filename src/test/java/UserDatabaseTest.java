@@ -46,7 +46,7 @@ public class UserDatabaseTest {
         """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(querySQL)) {
+            PreparedStatement stmt = conn.prepareStatement(querySQL)) {
 
             stmt.setString(1, "Jane.Doe22@kzoo.edu");
             stmt.setString(2, "StrongPassword123!");
