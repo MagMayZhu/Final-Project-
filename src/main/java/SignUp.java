@@ -2,18 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class SignUp extends JPanel {
-
+public class SignUp extends JPanel
+{
     private static final Color ORANGE = new Color(0xFF9500);
     private final AppController controller;
 
-    public SignUp(AppController controller) {
+    private JTextField firstNameField;
+    private JTextField lastNameField;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+
+
+    public SignUp(AppController controller)
+    {
         this.controller = controller;
 
         setLayout(null);
         setPreferredSize(new Dimension(375, 812));
-        setBackground(Color.WHITE); // optional
+        setBackground(Color.WHITE);
 
         addBackButton();
         addTitleLabel();
@@ -22,7 +34,8 @@ public class SignUp extends JPanel {
         addSignInLink();
     }
 
-    private void addBackButton() {
+    private void addBackButton()
+    {
         JButton backButton = new JButton("\u2190");
         backButton.setBounds(10, 10, 60, 30);
         backButton.setFocusPainted(false);
@@ -36,7 +49,8 @@ public class SignUp extends JPanel {
         add(backButton);
     }
 
-    private void addTitleLabel() {
+    private void addTitleLabel()
+    {
         JLabel title = new JLabel("Find the FunKtion");
         title.setFont(new Font("Alata", Font.BOLD, 28));
         title.setBounds((375 - 300) / 2, 60, 300, 40);
@@ -49,7 +63,8 @@ public class SignUp extends JPanel {
         add(signUpLabel);
     }
 
-    private void addInputFields() {
+    private void addInputFields()
+    {
         addFirstNameField();
         addLastNameField();
         addEmailField();
@@ -57,34 +72,45 @@ public class SignUp extends JPanel {
         addConfirmPasswordField();
     }
 
-    private void addFirstNameField() {
+    private void addFirstNameField()
+    {
         int x = (375 - 317) / 2, y = 180, width = 317, height = 40;
-        createPlaceholderField("First Name", x, y, width, height);
+        firstNameField = createPlaceholderField("First Name", x, y, width, height);
+        add(firstNameField);
     }
 
-    private void addLastNameField() {
+    private void addLastNameField()
+    {
         int x = (375 - 317) / 2, y = 250, width = 317, height = 40;
-        createPlaceholderField("Last Name", x, y, width, height);
+        lastNameField = createPlaceholderField("Last Name", x, y, width, height);
+        add(lastNameField);
     }
 
-    private void addEmailField() {
+    private void addEmailField()
+    {
         int x = (375 - 317) / 2, y = 320, width = 317, height = 40;
-        createPlaceholderField("Email", x, y, width, height);
+        emailField = createPlaceholderField("Email", x, y, width, height);
+        add(emailField);
     }
 
-    private void addPasswordField() {
+    private void addPasswordField()
+    {
         int x = (375 - 317) / 2, y = 390, width = 317, height = 40;
         String tooltip = "<html>Password requirements:<br>- At least one letter<br>- At least one number<br>- At least 8 characters long</html>";
-        createPlaceholderPasswordField("Password", x, y, width, height, tooltip);
+        passwordField = createPlaceholderPasswordField("Password", x, y, width, height, tooltip);
+        add(passwordField);
     }
 
-    private void addConfirmPasswordField() {
+    private void addConfirmPasswordField()
+    {
         int x = (375 - 317) / 2, y = 460, width = 317, height = 40;
         String tooltip = "Must match the password entered above";
-        createPlaceholderPasswordField("Confirm Password", x, y, width, height, tooltip);
+        confirmPasswordField = createPlaceholderPasswordField("Confirm Password", x, y, width, height, tooltip);
+        add(confirmPasswordField);
     }
 
-    private void addSignUpButton() {
+    private void addSignUpButton()
+    {
         JButton signUpButton = new JButton("SIGN UP");
         signUpButton.setBounds(52, 550, 271, 58);
         signUpButton.setForeground(Color.WHITE);
@@ -94,12 +120,16 @@ public class SignUp extends JPanel {
         signUpButton.setBackground(ORANGE);
         signUpButton.setHorizontalAlignment(SwingConstants.CENTER);
         signUpButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Signing up...");
+            if (validateAndRegisterUser() && controller != null)
+            {
+                controller.showSignIn();
+            }
         });
         add(signUpButton);
     }
 
-    private void addSignInLink() {
+    private void addSignInLink()
+    {
         JLabel orLabel = new JLabel("OR");
         orLabel.setFont(new Font("Alata", Font.PLAIN, 16));
         orLabel.setForeground(new Color(157, 152, 152));
@@ -127,30 +157,37 @@ public class SignUp extends JPanel {
         this.add(signInButton);
     }
 
-    private void createPlaceholderField(String placeholder, int x, int y, int width, int height) {
+    private JTextField createPlaceholderField(String placeholder, int x, int y, int width, int height)
+    {
         JTextField field = new JTextField(placeholder);
         field.setForeground(Color.GRAY);
         field.setBounds(x, y, width, height);
         field.setFont(new Font("Alata", Font.PLAIN, 14));
         field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (field.getText().equals(placeholder)) {
+            public void focusGained(FocusEvent e)
+            {
+                if (field.getText().equals(placeholder))
+                {
                     field.setText("");
                     field.setForeground(Color.BLACK);
                 }
             }
 
-            public void focusLost(FocusEvent e) {
-                if (field.getText().isEmpty()) {
+            public void focusLost(FocusEvent e)
+            {
+                if (field.getText().isEmpty())
+                {
                     field.setForeground(Color.GRAY);
                     field.setText(placeholder);
                 }
             }
         });
-        add(field);
+        // add(field);
+        return field;
     }
 
-    private JPasswordField createPlaceholderPasswordField(String placeholder, int x, int y, int width, int height, String tooltip) {
+    private JPasswordField createPlaceholderPasswordField(String placeholder, int x, int y, int width, int height, String tooltip)
+    {
         JPasswordField field = new JPasswordField(placeholder);
         field.setEchoChar((char) 0);
         field.setForeground(Color.GRAY);
@@ -161,9 +198,11 @@ public class SignUp extends JPanel {
         final boolean[] isPlaceholder = {true};
 
         field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
+            public void focusGained(FocusEvent e)
+            {
                 String value = new String(field.getPassword());
-                if (isPlaceholder[0] && value.equals(placeholder)) {
+                if (isPlaceholder[0] && value.equals(placeholder))
+                {
                     field.setText("");
                     field.setEchoChar('•');
                     field.setForeground(Color.BLACK);
@@ -171,9 +210,11 @@ public class SignUp extends JPanel {
                 }
             }
 
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e)
+            {
                 String value = new String(field.getPassword());
-                if (value.isEmpty()) {
+                if (value.isEmpty())
+                {
                     field.setEchoChar((char) 0);
                     field.setForeground(Color.GRAY);
                     field.setText(placeholder);
@@ -199,8 +240,100 @@ public class SignUp extends JPanel {
         return field;
     }
 
+    private boolean validateAndRegisterUser()
+    {
+        // Extract user input from fields
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        String email = emailField.getText().trim();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        // Strip placeholder if still present
+        if (firstName.equals("First Name") || lastName.equals("Last Name") || email.equals("Email") ||
+        password.equals("Password") || confirmPassword.equals("Confirm Password"))
+        {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+            return false;
+        }
+
+        // Validate inputs
+        if (!InputValidator.validateFirstNameField(firstName))
+        {
+            JOptionPane.showMessageDialog(this, "Invalid first name.");
+            return false;
+        }
+        if (!InputValidator.validatelastNameField(lastName))
+        {
+            JOptionPane.showMessageDialog(this, "Invalid last name.");
+            return false;
+        }
+        if (!InputValidator.validEmail(email))
+        {
+            JOptionPane.showMessageDialog(this, "Invalid email. Must be a kzoo.edu address.");
+            return false;
+        }
+        if (!InputValidator.validPassword(password))
+        {
+            JOptionPane.showMessageDialog(this, "Password must be at least 8 characters and contain a letter and number.");
+            return false;
+        }
+        if (!InputValidator.ConfirmPassword(password, confirmPassword))
+        {
+            JOptionPane.showMessageDialog(this, "Passwords do not match.");
+            return false;
+        }
+
+        // Check if email already exists
+        try (Connection conn = DatabaseConnection.getConnection())
+        {
+            String checkSQL = "SELECT 1 FROM \"Users\" WHERE email = ?";
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSQL))
+            {
+                checkStmt.setString(1, email);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next())
+                {
+                JOptionPane.showMessageDialog(this, "Email already in use.");
+                return false;
+                }
+            }
+
+            // Insert user
+            String insertSQL = "INSERT INTO \"Users\" (firstname, lastname, email, password, display_name) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL))
+            {
+                insertStmt.setString(1, firstName);
+                insertStmt.setString(2, lastName);
+                insertStmt.setString(3, email);
+                insertStmt.setString(4, password); // You should hash this before storing in production
+                insertStmt.setString(5, firstName); // default display name
+
+                int rowsInserted = insertStmt.executeUpdate();
+
+                if (rowsInserted == 1)
+                {
+                    JOptionPane.showMessageDialog(this, "Sign up successful!");
+                    return true;
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Sign up failed. Please try again.");
+                    return false;
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+            return false;
+        }
+    }
+
     // Main method for standalone testing
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
     SwingUtilities.invokeLater(() -> {
         JFrame frame = new JFrame("Find the FunKtion - Sign Up");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
