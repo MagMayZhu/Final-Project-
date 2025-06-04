@@ -1,11 +1,25 @@
+mport java.io.File;
 import java.io.File;
 import java.text.BreakIterator;
 import java.util.Locale;
-
 public class InputValidator {
-    
-    
     /**
+     * Validates a bio field.
+     * 
+     * Checks if the bio string is non-empty and is less than 200 characters long, any characters can be used.
+     * 
+     * @param bio the description as string.
+     * @return whether or not the description passes the validation.
+     */
+    public static boolean validateBioField(String bio) {
+        //Null case.
+        if (bio == null) {
+            return false;
+        }
+        //Check length (empty string is allowed based on requirements).
+        return bio.length() < 200;
+    }
+     /**
     * Validates the password field. 
      * - Must not be empty
      * - At least 8 characters long
@@ -105,6 +119,4 @@ public static boolean validatelastNameField(String input)
         // Allow only JPG or PNG files
         return fileName.endsWith(".jpg") || fileName.endsWith(".png");
     }
-
-    
 }
