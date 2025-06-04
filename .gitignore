@@ -24,4 +24,4 @@ out/
 
 # Environment variables file (for secrets)
 .env
-config.properties.DS_Store
+config.properties
