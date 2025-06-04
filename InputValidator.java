@@ -26,6 +26,16 @@ public class InputValidator {
 
         return hasUpper && hasLower && hasDigit;
     }
+    /**
+    * Validates the password field. 
+     * - Must not be empty
+     * - At least 2 characters long
+     * - At least one upper-case, lower-case.
+     * - Special characters are allowed    
+     * @param input the chracters to validate
+     * @return true if the password is not empty, has at least 2 characters,
+     *         and contains upper-case, lower-case or false otherwise
+     */
     
 public static boolean validatelastNameField(String input) 
         { //This is our boolean that will return true if more than 2 letters 
@@ -58,7 +68,17 @@ public static boolean validatelastNameField(String input)
 
         return false;
     }
-    public static boolean validateNameField(String name) {
+    /**
+    * Validates the password field. 
+     * - Must not be empty
+     * - At least 2 characters long
+     * - At least one upper-case, lower-case.
+     * - Special characters are allowed    
+     * @param name the name to validate
+     * @return true if the password is not empty, has at least 2 characters,
+     *         and contains upper-case, lower-case and digit, false otherwise
+     */
+    public static boolean validateFirstNameField(String name) {
         // Check if the name is null or empty
         if (name == null) return false;
 
