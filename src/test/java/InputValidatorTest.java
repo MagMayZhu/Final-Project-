@@ -1,33 +1,19 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
-
-import src.main.java.InputValidator;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import javax.xml.validation.Validator;
-
 
 public class InputValidatorTest {
 
     
 
 @Test
-     public void testPasswordFieldIsNotEmpty() {
-         assertTrue(InputValidator.validatePasswordField("Password123"));
-         assertFalse(InputValidator.validatePasswordField(""));
-         assertFalse(InputValidator.validatePasswordField(" "));
-     }
+    public void testPasswordFieldIsNotEmpty() {
+        assertTrue(InputValidator.validatePasswordField("Password123"));
+        assertFalse(InputValidator.validatePasswordField(""));
+        assertFalse(InputValidator.validatePasswordField(" "));
+    }
 
 @Test
-     public void testvalidatelastNameField() {
+    public void testvalidatelastNameField() {
       //True cases 
       assertTrue(InputValidator.validatelastNameField("García")); //Testing to make sure it takes Diacritic marks. 
       assertTrue(InputValidator.validatelastNameField("'Niyah'")); //testing for names beginning with "'"
@@ -126,51 +112,51 @@ public class InputValidatorTest {
     @Test
     public void testValidEmail() {
         // Test valid email
-        assertTrue(Validator.validEmail("edith.aviles23@kzoo.edu"));
-        assertTrue(Validator.validEmail("maggie.zhu24@kzoo.edu"));
-        assertTrue(Validator.validEmail("camila.benavidez21@kzoo.edu"));
-        assertTrue(Validator.validEmail("paul.dinsmore22@kzoo.edu"));
+        assertTrue(InputValidator.validEmail("edith.aviles23@kzoo.edu"));
+        assertTrue(InputValidator.validEmail("maggie.zhu24@kzoo.edu"));
+        assertTrue(InputValidator.validEmail("camila.benavidez21@kzoo.edu"));
+        assertTrue(InputValidator.validEmail("paul.dinsmore22@kzoo.edu"));
 }
 @Test
     public void testInvalidEmail() {
         // Test invalid email
-        assertFalse(Validator.validEmail("schooll@hotmail.com"));
-        assertFalse(Validator.validEmail("avilesedith2005@gmail.com"));
-        assertFalse(Validator.validEmail("goodness@att.net"));
-        assertFalse(Validator.validEmail("edith.aviles23@go.edu"));
+        assertFalse(InputValidator.validEmail("schooll@hotmail.com"));
+        assertFalse(InputValidator.validEmail("avilesedith2005@gmail.com"));
+        assertFalse(InputValidator.validEmail("goodness@att.net"));
+        assertFalse(InputValidator.validEmail("edith.aviles23@go.edu"));
     }
     @Test
     public void testValidPass() {
-        assertTrue(Validator.validPassword("Password12"));
-        assertTrue(Validator.validPassword("Valid1234"));
-       assertTrue(Validator.validPassword("goodness123"));
-        assertTrue(Validator.validPassword("StrongPass1"));;
+        assertTrue(InputValidator.validPassword("Password12"));
+        assertTrue(InputValidator.validPassword("Valid1234"));
+        assertTrue(InputValidator.validPassword("goodness123"));
+        assertTrue(InputValidator.validPassword("StrongPass1"));;
     }
     @Test
     public void testInvalidPass() {
         // Test invalid passwords
-        assertFalse(Validator.validPassword("short"));
-        assertFalse(Validator.validPassword("NoNumber"));
-        assertFalse(Validator.validPassword("123456b"));
-        assertFalse(Validator.validPassword(null));
+        assertFalse(InputValidator.validPassword("short"));
+        assertFalse(InputValidator.validPassword("NoNumber"));
+        assertFalse(InputValidator.validPassword("123456b"));
+        assertFalse(InputValidator.validPassword(null));
     }
 
     @Test
     public void testConfirmPassword() {
         // Test Confirm Password
-        assertTrue(Validator.ConfirmPassword("Password12", "Password12"));
-        assertTrue(Validator.ConfirmPassword("Valid1234", "Valid1234"));
-        assertTrue(Validator.ConfirmPassword("123456b", "123456b"));
-        assertTrue(Validator.ConfirmPassword("StrongPass1", "StrongPass1"));
+        assertTrue(InputValidator.ConfirmPassword("Password12", "Password12"));
+        assertTrue(InputValidator.ConfirmPassword("Valid1234", "Valid1234"));
+        assertTrue(InputValidator.ConfirmPassword("123456b", "123456b"));
+        assertTrue(InputValidator.ConfirmPassword("StrongPass1", "StrongPass1"));
     }
 
     @Test
     public void testConfirmPasswordMismatch() {
         // Test Confirm Password mismatch
-        assertFalse(Validator.ConfirmPassword("Password12", "DifferentPassword"));
-        assertFalse(Validator.ConfirmPassword("Valid1234", "valid1234"));
-        assertFalse(Validator.ConfirmPassword("123456b", "123456B"));
-        assertFalse(Validator.ConfirmPassword("short", "shorter"));
+        assertFalse(InputValidator.ConfirmPassword("Password12", "DifferentPassword"));
+        assertFalse(InputValidator.ConfirmPassword("Valid1234", "valid1234"));
+        assertFalse(InputValidator.ConfirmPassword("123456b", "123456B"));
+        assertFalse(InputValidator.ConfirmPassword("short", "shorter"));
     }
 
 }
