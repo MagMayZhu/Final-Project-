@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class UserDatabaseTest {
 
-    @BeforeAll
-    public static void testInsertUser()
+    @Test
+    public void testInsertUser()
     {
         String insertSQL = """
             INSERT INTO "Users" (firstname, lastname, email, password, display_name)
@@ -62,7 +62,7 @@ public class UserDatabaseTest {
         }
     }
 
-    @Test
+   @Test
     public void testDeleteUser()
     {
         String deleteSQL = """
@@ -81,4 +81,5 @@ public class UserDatabaseTest {
             e.printStackTrace();
         }
     }
+    
 }
