@@ -22,6 +22,5 @@ out/
 # Temporary files
 *.tmp
 
-# Environment variables file (for secrets)
-.env
+# Config properties storing private database credentials
 config.properties
