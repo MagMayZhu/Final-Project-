@@ -11,8 +11,7 @@ Ensure that your Java is up to data past edition 20.
 
 2. Download pgAdmin 4, easiest to download through the website. 
 
-
-3. Right click on servers and select register, then server. In the name category put JEEMM305, then under the connection tab under "Host name" write "localhost" 
+3. Right click on servers and select register, then server. In the name category put JEEMM305, then under the connection tab under "Host name" write "localhost" git 
 
 4. For maintenance database ensure that it says postgres. 
 
