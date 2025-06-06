@@ -7,12 +7,15 @@ public class AppController {
 
     public AppController()
     {
+        ImageIcon image = new ImageIcon(getClass().getClassLoader().getResource("default_profile.jpg"));
+
         this.user = new User(
             "Your Name",
             "Your bio here",
-            new ImageIcon("default.png"),
+            image,
             List.of("Academic", "Creative")
         );
+        
         appGUI = new AppGUI(this);
     }
 

@@ -138,25 +138,6 @@ public class MyProfile extends JPanel
         updateTagsPanel();
     }
 
-    // private void openEditDialog() {
-    //     JDialog editDialog = new JDialog();
-    //     editDialog.setTitle("Edit Profile");
-    //     editDialog.setModal(true);
-
-    //     EditMyProfile editPanel = new EditMyProfile(
-    //         this,
-    //         nameField.getText(),
-    //         aboutText.getText(),
-    //         profileImage.getIcon(),
-    //         selectedInterests
-    //     );
-
-    //     editDialog.add(editPanel);
-    //     editDialog.pack();
-    //     editDialog.setLocationRelativeTo(this);
-    //     editDialog.setVisible(true);
-    // }
-
     public void updateTagsPanel()
     {
         tagsPanel.removeAll();
