@@ -14,7 +14,8 @@ public class CreateEvent extends JPanel {
     private JLabel imageLabel;
     private final AppController controller;
 
-    public CreateEvent(AppController controller) {
+    public CreateEvent(AppController controller)
+    {
         this.controller = controller;
 
         setLayout(null);
@@ -30,7 +31,8 @@ public class CreateEvent extends JPanel {
         addPublishButton();
     }
 
-    private void addBackButton() {
+    private void addBackButton()
+    {
         JButton backButton = new JButton("\u2190");
         backButton.setBounds(10, 10, 60, 30);
         backButton.setFocusPainted(false);
@@ -43,14 +45,16 @@ public class CreateEvent extends JPanel {
         add(backButton);
     }
 
-    private void addTitle() {
+    private void addTitle()
+    {
         JLabel title = new JLabel("Create Event");
         title.setFont(new Font("Alata", Font.PLAIN, 20));
         title.setBounds(80, 8, 200, 40);
         add(title);
     }
 
-    private void addImage() {
+    private void addImage()
+    {
         imageLabel = new JLabel(getScaledImageIcon("UploadImage.png", 170, 170));
         imageLabel.setBounds((375 - 200) / 2, 55, 170, 170);
         imageLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -69,16 +73,23 @@ public class CreateEvent extends JPanel {
         add(imageLabel);
     }
 
-    private void addFields() {
+    private void addFields()
+    {
         int y = 260;
         nameField = createPlaceholderField("Event Name", 50, y); y += 50;
+        add(nameField);
         dateField = createPlaceholderField("MM/DD/YYYY", 50, y); y += 50;
+        add(dateField);
         timeField = createPlaceholderField("HH:MM AM/PM", 50, y); y += 50;
+        add(timeField);
         locationField = createPlaceholderField("Location", 50, y); y += 50;
+        add(locationField);
         hostField = createPlaceholderField("Host", 50, y);
+        add(hostField);
     }
 
-    private JTextField createPlaceholderField(String placeholder, int x, int y) {
+    private JTextField createPlaceholderField(String placeholder, int x, int y)
+    {
         JLabel label = new JLabel(placeholder + ":");
         label.setFont(new Font("Alata", Font.BOLD, 16));
         label.setBounds(x, y - 20, 280, 20);
@@ -89,26 +100,29 @@ public class CreateEvent extends JPanel {
         field.setFont(new Font("Alata", Font.PLAIN, 14));
         field.setBounds(x, y, 280, 30);
         field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (field.getText().equals(placeholder)) {
+            public void focusGained(FocusEvent e)
+            {
+                if (field.getText().equals(placeholder))
+                {
                     field.setText("");
                     field.setForeground(Color.BLACK);
                 }
             }
 
-            public void focusLost(FocusEvent e) {
-                if (field.getText().isEmpty()) {
+            public void focusLost(FocusEvent e)
+            {
+                if (field.getText().isEmpty())
+                {
                     field.setText(placeholder);
                     field.setForeground(Color.GRAY);
                 }
             }
         });
-
-        add(field);
         return field;
     }
 
-    private void addEventDescription() {
+    private void addEventDescription()
+    {
         JLabel label = new JLabel("Description:");
         label.setFont(new Font("Alata", Font.BOLD, 16));
         label.setBounds(50, 490, 300, 20);
@@ -121,15 +135,19 @@ public class CreateEvent extends JPanel {
         descriptionArea.setWrapStyleWord(true);
 
         descriptionArea.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (descriptionArea.getText().equals("Enter event description...")) {
+            public void focusGained(FocusEvent e)
+            {
+                if (descriptionArea.getText().equals("Enter event description..."))
+                {
                     descriptionArea.setText("");
                     descriptionArea.setForeground(Color.BLACK);
                 }
             }
 
-            public void focusLost(FocusEvent e) {
-                if (descriptionArea.getText().isEmpty()) {
+            public void focusLost(FocusEvent e)
+            {
+                if (descriptionArea.getText().isEmpty())
+                {
                     descriptionArea.setText("Enter event description...");
                     descriptionArea.setForeground(Color.GRAY);
                 }
@@ -141,7 +159,8 @@ public class CreateEvent extends JPanel {
         add(scrollPane);
     }
 
-    private void addFilterButtons() {
+    private void addFilterButtons()
+    {
         JLabel label = new JLabel("Filters:");
         label.setFont(new Font("Alata", Font.BOLD, 16));
         label.setBounds(50, 560, 100, 20);
@@ -156,7 +175,8 @@ public class CreateEvent extends JPanel {
         int gap = 10;
         int count = 0;
 
-        for (String filter : filters) {
+        for (String filter : filters)
+        {
             JButton button = new JButton(filter);
             button.setFont(new Font("Alata", Font.PLAIN, 14));
             button.setBounds(xStart + (count % 2) * (width + gap), y, width, height);
@@ -171,14 +191,16 @@ public class CreateEvent extends JPanel {
         }
     }
 
-    private void styleFilterButton(JButton button, boolean selected) {
+    private void styleFilterButton(JButton button, boolean selected)
+    {
         button.setBackground(selected ? ORANGE : GRAY);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
     }
 
-    private void addPublishButton() {
+    private void addPublishButton()
+    {
         JButton publish = new JButton("Publish Event");
         publish.setBounds(100, 725, 180, 40);
         publish.setFont(new Font("Alata", Font.BOLD, 16));
@@ -196,8 +218,10 @@ public class CreateEvent extends JPanel {
         add(publish);
     }
 
-    private ImageIcon getScaledImageIcon(String path, int width, int height) {
-        try {
+    private ImageIcon getScaledImageIcon(String path, int width, int height)
+    {
+        try
+        {
             BufferedImage originalImage = ImageIO.read(new File(path));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = resizedImage.createGraphics();
@@ -205,23 +229,26 @@ public class CreateEvent extends JPanel {
             g2d.drawImage(originalImage, 0, 0, width, height, null);
             g2d.dispose();
             return new ImageIcon(resizedImage);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
 
     // Main method for standalone testing
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
     SwingUtilities.invokeLater(() -> {
         JFrame frame = new JFrame("Find the FunKtion - Create Event");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(375, 812);
         frame.setLocationRelativeTo(null);
 
-        // Pass null since we're just testing the SignUp UI
+        // Pass null since we're just testing the Cteate Event UI
         frame.setContentPane(new CreateEvent(null));
         frame.setVisible(true);
-    });
-}
+        });
+    }
 }

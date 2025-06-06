@@ -10,6 +10,7 @@ public class Verification extends JPanel {
     public Verification() {
         setLayout(null);
         setPreferredSize(new Dimension(375, 812));
+        setBackground(Color.WHITE);
 
         // Title
         JLabel title = new JLabel("Verification");
@@ -28,7 +29,7 @@ public class Verification extends JPanel {
         for (int i = 0; i < 4; i++) {
             JPanel box = new JPanel();
             box.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-            box.setBounds(boxX[i], 215, 55, 55);
+            box.setBounds(boxX[i], 225, 55, 55);
             box.setLayout(new BorderLayout());
 
             JLabel digitLabel = new JLabel("", SwingConstants.CENTER); // Empty by default

@@ -32,7 +32,7 @@ CREATE TABLE "Events" (
     "eventid" SERIAL PRIMARY KEY,
     "picture" TEXT,
     "event_name" VARCHAR(255) NOT NULL,
-    "event_date" VARCHAR(50) NOT NULL, -- you can later cast to DATE if needed
+    "event_date" VARCHAR(50) NOT NULL,
     "event_time" VARCHAR(50) NOT NULL,
     "locationid" INT REFERENCES "Locations"("locationid") ON DELETE SET NULL,
     "hostid" INT REFERENCES "Users"("usersid") ON DELETE CASCADE,
